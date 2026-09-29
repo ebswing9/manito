@@ -4,20 +4,25 @@
 <title>마니또 🐥</title>
 <style>
 @font-face{font-family:"Geurimilgi";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimGeurimilgiTTF-R.woff2") format("woff2");font-weight:400;font-display:swap}
-:root{--y:#FFE98A;--y2:#FFF7CF;--p:#FFB8A8;--pk:#FFC9DE;--b:#BDE6FF;--t:#6B4E1E}
+@font-face{font-family:"Maple";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff") format("woff");font-weight:400;font-display:swap}
+:root{--hd:"Maple","Geurimilgi","Apple SD Gothic Neo",sans-serif;--y:#FFE98A;--y2:#FFF7CF;--p:#FFB8A8;--pk:#FFC9DE;--b:#BDE6FF;--t:#6B4E1E}
 *{box-sizing:border-box}
 body{margin:0;font-family:'Geurimilgi','Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:17px;color:var(--t);min-height:100vh;background:linear-gradient(165deg,#FFFAE0 0%,#FFF3C8 50%,#FFEBE3 100%);background-attachment:fixed}
 #app{max-width:680px;margin:0 auto;padding:14px 14px 80px}#app.adm{max-width:1000px}
-.card{background:#fff;border:3px solid var(--y);border-radius:26px;padding:16px;margin:12px 0;box-shadow:0 5px 0 var(--y)}
-.card:nth-child(3n){border-color:var(--pk);box-shadow:0 5px 0 var(--pk)}
-h1,h2,h3,b,strong,th{font-weight:400}h1,h2,h3{margin:.3em 0}p{line-height:1.6}
+.card{position:relative;background:#fff;border-radius:28px;padding:24px 22px 22px;margin:28px 0;box-shadow:0 12px 28px -10px rgba(235,170,50,.4),0 0 0 2px #FFF1BF}
+.card::before{content:"";position:absolute;top:-11px;left:28px;width:74px;height:22px;border-radius:4px;transform:rotate(-4deg);background-color:rgba(255,201,222,.9);background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(255,255,255,.5) 6px 12px)}
+.card:nth-child(3n+2)::before{background-color:rgba(189,230,255,.9);left:auto;right:28px;transform:rotate(3deg)}
+.card:nth-child(3n)::before{background-color:rgba(255,226,120,.95)}
+.card h2,.card h3{width:fit-content;max-width:100%;background:linear-gradient(transparent 62%,#FFE98A 62%);padding:0 6px}
+.fr h2,.fr h3,div[style*="text-align:center"] h2{margin-left:auto;margin-right:auto}
+h1,h2,h3,b,strong,th,button,.tag,.ct,.ff,.stamp,.bar span{font-family:var(--hd);font-weight:400}h1{font-size:2rem}h2{font-size:1.5rem}h3{font-size:1.2rem}h1,h2,h3{margin:.4em 0;letter-spacing:.5px}p{line-height:1.7}
 button,input,select,textarea{font:inherit;color:inherit}
-button{background:var(--y);border:0;border-radius:16px;padding:10px 16px;box-shadow:0 3px 0 #e8c94f;cursor:pointer;margin:3px}
-button:active{transform:translateY(3px);box-shadow:none}
-button.p{background:var(--p);box-shadow:0 3px 0 #e89986}button.g{background:#eee;box-shadow:0 3px 0 #ccc}button.b{background:var(--b);box-shadow:0 3px 0 #92c6e6}
-input,select,textarea{width:100%;border:3px solid var(--y);border-radius:14px;padding:10px;background:#fffdf0;margin:4px 0}
+button{background:var(--y);border:0;border-radius:999px;padding:10px 20px;box-shadow:0 4px 0 #EBCB55;cursor:pointer;margin:6px 5px;color:var(--t)}
+button:active{transform:translateY(4px);box-shadow:none}
+button.p{background:var(--p);box-shadow:0 4px 0 #e89986}button.g{background:#f0eee6;box-shadow:0 4px 0 #d3cfc0}button.b{background:var(--b);box-shadow:0 4px 0 #92c6e6}
+input,select,textarea{width:100%;border:2px solid #FFE38A;border-radius:16px;padding:11px 14px;background:#fffdf3;margin:6px 0}input:focus,select:focus,textarea:focus{outline:0;border-color:var(--p)}input[type=checkbox]{width:22px!important;height:22px;margin:0;accent-color:#FF9F8A}
 .top{display:flex;align-items:center;gap:8px}.chick{animation:hop 1s infinite}@keyframes hop{50%{transform:translateY(-12px)}}
-.menu{display:flex;flex-wrap:wrap;gap:2px}.tag{display:inline-block;background:var(--y2);border-radius:20px;padding:2px 10px;font-size:.8rem;margin-right:4px}.tag.rq{background:var(--p)}
+.menu{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.menu button{margin:0}.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0}.row button{margin:0}.tag{display:inline-block;background:var(--y2);border-radius:20px;padding:2px 10px;font-size:.8rem;margin-right:4px}.tag.rq{background:var(--p)}
 .fr{background:linear-gradient(135deg,#FFF3B0,#FFD9E6);text-align:center}
 .stamp{display:inline-block;color:#ff6b6b;border:3px solid #ff6b6b;border-radius:50%;padding:6px 10px;transform:rotate(-12deg);animation:st .4s}
 @keyframes st{from{transform:scale(3) rotate(-30deg);opacity:0}}
@@ -31,9 +36,9 @@ input,select,textarea{width:100%;border:3px solid var(--y);border-radius:14px;pa
 .flip{perspective:800px;height:170px;cursor:pointer}.fi{position:relative;height:100%;transition:transform .8s;transform-style:preserve-3d}.flip.on .fi{transform:rotateY(180deg)}
 .ff,.fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--y)}
 .ff{background:var(--y);font-size:1.4rem}.fb{background:#fff;transform:rotateY(180deg)}
-table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border:2px solid var(--y);padding:5px;text-align:center}
+table{border-collapse:separate;border-spacing:0 8px;width:100%;font-size:.95rem}th{padding:4px 12px;font-size:.85rem;color:#B58A2E}td{padding:12px;background:#FFFBEA;text-align:center}td:first-child{border-radius:16px 0 0 16px}td:last-child{border-radius:0 16px 16px 0}
 .wrap{overflow-x:auto}.bar{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-bottom:6px}.bar span{background:#eee;border-radius:12px;padding:5px 2px;font-size:.8rem;text-align:center}@media(max-width:640px){.bar{grid-template-columns:repeat(3,1fr)}}.nv{display:grid;gap:6px;margin:8px 0}.nv button{margin:0;width:100%}.bar .dn{background:var(--y)}.bar .now{background:var(--p)}
-.red{background:#ffd1d1}.sel{background:var(--b)}.tabs{position:sticky;top:0;background:var(--y2);padding:6px 0;z-index:5}
+td.red{background:#ffd1d1}tr.sel td{background:var(--b)}.tabs{position:sticky;top:0;background:#FFF8D8ee;padding:8px 0;z-index:5;display:flex;flex-wrap:wrap;gap:6px}.tabs button{margin:0}
 .pg{height:14px;background:#eee;border-radius:10px;overflow:hidden}.pg i{display:block;height:100%;background:var(--p)}
 canvas{width:100%;height:150px;background:#fffdf0;border:3px dashed var(--p);border-radius:16px;touch-action:none}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--t);color:#fff;padding:10px 18px;border-radius:20px;z-index:100}
@@ -162,8 +167,8 @@ function pProg(){const c=cf(),ph=c.phase||'ready',pi=P.indexOf(ph);A.nv=navs();c
 function pRoster(){const r=Object.entries(A.roster||{}).sort((a,b)=>a[0].localeCompare(b[0],0,{numeric:1})),se=SP.sel=SP.sel||{},ns=r.filter(([i])=>se[i]).length,
  bt=(l,fn,c)=>'<button class="'+(c||'')+'" onclick="'+fn+'">'+l+'</button>';
  return card('<h3>👥 명단 붙여넣기</h3><p>엑셀에서 "학번 이름" 두 열을 복사해 붙여 넣으세요 (이미 있으면 이름만 갱신)</p><textarea id="paste" rows="4"></textarea><button class="p" onclick="addRoster()">등록</button><hr><p>또는 CSV 파일 업로드 (첫 열 학번, 둘째 열 이름 / 첫 줄이 제목이면 자동으로 건너뛰어요)</p><input type="file" accept=".csv,.txt" onchange="upCsv(this)">')+
- card('<div>'+bt('☑ 전체 선택','selAll(1)','b')+bt('☐ 전체 해제','selAll(0)','g')+' <b>'+ns+'명 선택됨</b></div><div>'+bt('참여 제외',"bulk('ex')")+bt('참여 포함',"bulk('in')")+bt('서약 처리',"bulk('pl')")+bt('서약 해제',"bulk('un')")+bt('PIN 초기화',"bulk('pin')")+bt('삭제',"bulk('del')",'p')+'</div><div class="wrap"><table><tr><th></th><th>학번</th><th>이름</th><th>PIN</th><th>서약</th><th>참여</th></tr>'+
- r.map(([i,u])=>'<tr class="'+(se[i]?'sel':'')+'"><td><input type="checkbox" style="width:auto" '+(se[i]?'checked':'')+' onchange="SP.sel[\''+i+'\']=this.checked;arender(1)"></td><td>'+esc(i)+'</td><td>'+esc(u.name)+'</td><td>'+((A.pins||{})[i]?'<span onclick="SP[\''+i+'\']=!SP[\''+i+'\'];arender(1)" style="cursor:pointer">'+(SP[i]?esc(A.pins[i]):'••••')+' 👁</span>':'-')+'</td><td onclick="R(\'roster/'+i+'/pledged\').set('+!u.pledged+')" style="cursor:pointer">'+(u.pledged?'✔':'✖')+'</td><td onclick="R(\'roster/'+i+'/excluded\').set('+!u.excluded+')" style="cursor:pointer">'+(u.excluded?'⛔ 제외':'참여')+'</td></tr>').join('')+'</table></div><small>서약·참여 칸을 누르면 개별로 바꿀 수 있어요. 여러 명은 체크한 뒤 위 버튼을 쓰세요.</small>')}
+ card('<div class="row">'+bt('☑ 전체 선택','selAll(1)','b')+bt('☐ 전체 해제','selAll(0)','g')+' <b>'+ns+'명 선택됨</b></div><div class="row">'+bt('참여 제외',"bulk('ex')")+bt('참여 포함',"bulk('in')")+bt('서약 처리',"bulk('pl')")+bt('서약 해제',"bulk('un')")+bt('PIN 초기화',"bulk('pin')")+bt('삭제',"bulk('del')",'p')+'</div><div class="wrap"><table><tr><th></th><th>학번</th><th>이름</th><th>PIN</th><th>서약</th><th>참여</th></tr>'+
+ r.map(([i,u])=>'<tr class="'+(se[i]?'sel':'')+'"><td><input type="checkbox" '+(se[i]?'checked':'')+' onchange="SP.sel[\''+i+'\']=this.checked;arender(1)"></td><td>'+esc(i)+'</td><td>'+esc(u.name)+'</td><td>'+((A.pins||{})[i]?'<span onclick="SP[\''+i+'\']=!SP[\''+i+'\'];arender(1)" style="cursor:pointer">'+(SP[i]?esc(A.pins[i]):'••••')+' 👁</span>':'-')+'</td><td onclick="R(\'roster/'+i+'/pledged\').set('+!u.pledged+')" style="cursor:pointer">'+(u.pledged?'✔':'✖')+'</td><td onclick="R(\'roster/'+i+'/excluded\').set('+!u.excluded+')" style="cursor:pointer">'+(u.excluded?'⛔ 제외':'참여')+'</td></tr>').join('')+'</table></div><small>서약·참여 칸을 누르면 개별로 바꿀 수 있어요. 여러 명은 체크한 뒤 위 버튼을 쓰세요.</small>')}
 function selAll(f){SP.sel={};if(f)Object.keys(A.roster||{}).forEach(i=>SP.sel[i]=true);arender(1)}
 function bulk(k){const ids=Object.keys(SP.sel||{}).filter(i=>SP.sel[i]&&(A.roster||{})[i]);if(!ids.length)return toast('먼저 학생을 선택해 주세요');
  const L={ex:'참여 제외',in:'참여 포함',pl:'서약 처리',un:'서약 해제',pin:'PIN 초기화',del:'삭제'};
