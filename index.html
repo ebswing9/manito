@@ -13,10 +13,12 @@
 body{margin:0;font-family:'Geurimilgi','Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:17px;color:var(--t);min-height:100vh;background:linear-gradient(165deg,#FFFAE0 0%,#FFF3C8 50%,#FFEBE3 100%);background-attachment:fixed}
 #app{max-width:680px;margin:0 auto;padding:14px 14px 80px}#app.adm{max-width:1000px}
 .card{position:relative;background:#fff;border-radius:28px;padding:24px 22px 22px;margin:28px 0;box-shadow:0 12px 28px -10px rgba(235,170,50,.4),0 0 0 2px #FFF1BF}
-.card{--hc:#FFC9DE}.card:nth-child(3n+2){--hc:#BDE6FF}.card:nth-child(3n){--hc:#FFE27A}
-.card::before,.card::after{content:"";position:absolute;top:-19px;width:15px;height:24px;background:var(--hc);border-radius:15px 15px 0 0}
-.card::before{left:44px;transform:rotate(-45deg);transform-origin:0 100%}
-.card::after{left:29px;transform:rotate(45deg);transform-origin:100% 100%}
+.card::before,.card::after{content:"";position:absolute;background:no-repeat center/contain;filter:drop-shadow(0 2px 2px rgba(200,140,60,.25))}
+.card::before{top:-17px;left:22px;width:38px;height:34px;transform:rotate(-14deg)}
+.card::after{top:-7px;left:58px;width:20px;height:18px;transform:rotate(12deg)}
+.card:nth-child(3n+1)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29'%3E%3Cpath d='M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z' fill='%23FFAFC8' stroke='white' stroke-width='2.5'/%3E%3Cellipse cx='9' cy='8' rx='3.2' ry='2' fill='white' opacity='.6' transform='rotate(-30 9 8)'/%3E%3C/svg%3E")}.card:nth-child(3n+1)::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29'%3E%3Cpath d='M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z' fill='%23FFD35C' stroke='white' stroke-width='2.5'/%3E%3Cellipse cx='9' cy='8' rx='3.2' ry='2' fill='white' opacity='.6' transform='rotate(-30 9 8)'/%3E%3C/svg%3E")}
+.card:nth-child(3n+2)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29'%3E%3Cpath d='M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z' fill='%239FD3FF' stroke='white' stroke-width='2.5'/%3E%3Cellipse cx='9' cy='8' rx='3.2' ry='2' fill='white' opacity='.6' transform='rotate(-30 9 8)'/%3E%3C/svg%3E")}.card:nth-child(3n+2)::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29'%3E%3Cpath d='M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z' fill='%23FFAFC8' stroke='white' stroke-width='2.5'/%3E%3Cellipse cx='9' cy='8' rx='3.2' ry='2' fill='white' opacity='.6' transform='rotate(-30 9 8)'/%3E%3C/svg%3E")}
+.card:nth-child(3n)::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29'%3E%3Cpath d='M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z' fill='%23FFD35C' stroke='white' stroke-width='2.5'/%3E%3Cellipse cx='9' cy='8' rx='3.2' ry='2' fill='white' opacity='.6' transform='rotate(-30 9 8)'/%3E%3C/svg%3E")}.card:nth-child(3n)::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29'%3E%3Cpath d='M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z' fill='%239FD3FF' stroke='white' stroke-width='2.5'/%3E%3Cellipse cx='9' cy='8' rx='3.2' ry='2' fill='white' opacity='.6' transform='rotate(-30 9 8)'/%3E%3C/svg%3E")}
 .card h2,.card h3{width:fit-content;max-width:100%;background:linear-gradient(transparent 62%,#FFE98A 62%);padding:0 6px}
 .fr h2,.fr h3,div[style*="text-align:center"] h2{margin-left:auto;margin-right:auto}
 h1,h2,h3,b,strong,th,button,.tag,.ct,.ff,.stamp,.bar span{font-family:var(--hd);font-weight:400}h1{font-size:2rem}h2{font-size:1.5rem}h3{font-size:1.2rem}h1,h2,h3{margin:.4em 0;letter-spacing:.5px}p{line-height:1.7}
@@ -24,7 +26,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{font-family:var(--hd);background:var(--y);border:0;border-radius:999px;padding:10px 20px;box-shadow:0 4px 0 #EBCB55;cursor:pointer;margin:6px 5px;color:var(--t)}
 button:active{transform:translateY(4px);box-shadow:none}
 button.p{background:var(--p);box-shadow:0 4px 0 #e89986}button.g{background:#f0eee6;box-shadow:0 4px 0 #d3cfc0}button.b{background:var(--b);box-shadow:0 4px 0 #92c6e6}
-input,select,textarea{width:100%;border:2px solid #FFE38A;border-radius:16px;padding:11px 14px;background:#fffdf3;margin:6px 0}input:focus,select:focus,textarea:focus{outline:0;border-color:var(--p)}input[type=checkbox]{width:22px!important;height:22px;margin:0;accent-color:#FF9F8A}
+input,select,textarea{width:100%;border:2px solid #FFE38A;border-radius:16px;padding:11px 14px;background:#fffdf3;margin:6px 0}input:focus,select:focus,textarea:focus{outline:0}input[type=checkbox]{width:22px!important;height:22px;margin:0;accent-color:#FF9F8A}
 .top{display:flex;align-items:center;gap:8px}.chick{animation:hop 1s infinite}@keyframes hop{50%{transform:translateY(-12px)}}
 .menu{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.menu button{margin:0}.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0}.row button{margin:0}.tag{display:inline-block;background:var(--y2);border-radius:20px;padding:2px 10px;font-size:.8rem;margin-right:4px}.tag.rq{background:var(--p)}
 .fr{background:linear-gradient(135deg,#FFF3B0,#FFD9E6);text-align:center}
@@ -47,7 +49,7 @@ td.red{background:#ffd1d1}tr.sel td{background:var(--b)}.tabs{position:sticky;to
 canvas{width:100%;height:150px;background:#fffdf0;border:3px dashed var(--p);border-radius:16px;touch-action:none}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--t);color:#fff;padding:10px 18px;border-radius:20px;z-index:100}
 body.oath{background:radial-gradient(ellipse at 50% -10%,#4a3572 0,#1a1836 55%,#0d0d1f 100%);background-attachment:fixed}
-.top{justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.hl{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.top h2{margin:.1em 0}.ttl{font-size:1.8rem}.who{font-family:var(--hd);font-size:1.25rem;color:#E58F72}.tb{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tb button{margin:0;padding:8px 14px}
+.top{justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.hl{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.top h2{margin:.1em 0}.ttl{font-size:1.8rem}.who{font-family:var(--hd);font-size:1.25rem;color:#C99A1E}.tb{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tb button{margin:0;padding:8px 14px}
 .oath .ttl,.oath .who{color:#F3D98A}
 .cert{position:relative;font-family:var(--sf);background:#FBF4DF;color:#3A2A12;border:3px double #B8923A;outline:2px solid #B8923A;outline-offset:6px;border-radius:6px;padding:30px 22px 36px;margin:34px 8px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .cert .orn{text-align:center;color:#B8923A;letter-spacing:.6em;margin:4px 0}
@@ -59,10 +61,14 @@ body.oath{background:radial-gradient(ellipse at 50% -10%,#4a3572 0,#1a1836 55%,#
 .cert .sgn{text-align:right;margin:8px 0 2px;color:#5A1622}
 .cert button{font-family:var(--sf);font-weight:700}
 button.oa{background:#7A1F2B;color:#F6DC8A;box-shadow:0 4px 0 #4A1119}button.og{background:#E9DCB8;color:#5A4318;box-shadow:0 4px 0 #B9A76F}
-.seal{position:absolute;left:24px;bottom:22px;width:88px;height:88px;border-radius:50%;border:4px double #B3202F;color:#B3202F;display:flex;align-items:center;justify-content:center;font-family:var(--sf);font-weight:700;font-size:1.2rem;transform:rotate(-14deg);opacity:.85;text-align:center;line-height:1.2}
+.seal{flex:none;width:88px;height:88px;border-radius:50%;border:4px double #B3202F;color:#B3202F;display:flex;align-items:center;justify-content:center;font-family:var(--sf);font-weight:700;font-size:1.2rem;transform:rotate(-14deg);opacity:.85;text-align:center;line-height:1.2}
 h3,.tag,th,.mt,.sn,.from{font-family:var(--md);font-weight:500}
 .rt{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}.rt button{margin:0}
-.stabs{display:flex;gap:8px;margin:12px 0 0;flex-wrap:wrap}.stabs button{margin:0}
+.stabs{display:flex;gap:2px;padding:4px;margin:14px 0 30px;background:rgba(255,255,255,.55);border-radius:999px;backdrop-filter:blur(4px);box-shadow:inset 0 0 0 1.5px rgba(235,200,90,.35)}
+.stabs button{flex:1;margin:0;padding:8px 6px;background:transparent;box-shadow:none;font-family:var(--md);font-weight:500;font-size:.88rem;color:#9A7A2E;border-radius:999px}
+.stabs button.on{background:rgba(255,226,120,.75);color:#5A4318}
+.bd{display:inline-block;min-width:18px;height:18px;line-height:18px;border-radius:9px;background:#FF7FA5;color:#fff;font-size:.7rem;font-style:normal;margin-left:5px;padding:0 5px;vertical-align:middle;animation:bd 1.6s infinite}
+@keyframes bd{50%{transform:scale(1.18)}}
 .hl{position:relative}.tpop{position:absolute;top:100%;left:0;margin-top:6px;background:#fff;border-radius:14px;padding:6px 12px;font-size:.85rem;box-shadow:0 6px 16px rgba(0,0,0,.15);z-index:20;white-space:nowrap}
 .ovl{position:fixed;inset:0;z-index:50;background:rgba(30,25,50,.5);overflow:auto;padding:30px 10px;backdrop-filter:blur(2px)}
 .ovl .cert{margin:10px auto;max-width:560px;background:rgba(251,244,223,.97)}.ovl>.card{max-width:420px;margin:70px auto}
@@ -75,6 +81,11 @@ h3,.tag,th,.mt,.sn,.from{font-family:var(--md);font-weight:500}
 .sp0,.sp2{width:74px;height:74px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:34px}
 .sp0{border:3px dashed #F3D9A2;color:#E8D3A8;background:#FFFDF3}.sp2{box-shadow:inset 0 0 0 5px rgba(255,255,255,.75),0 4px 0 rgba(0,0,0,.08);animation:pop .5s}
 @keyframes pop{from{transform:scale(2.2) rotate(-25deg);opacity:0}}
+body{word-break:keep-all;overflow-wrap:break-word}
+button:disabled{cursor:default;transform:none;box-shadow:0 4px 0 #e89986}
+.sigrow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:8px}.sgw{flex:1;text-align:right}.sgw img{max-width:100%;width:300px}
+.cert .warn,.cert h1{text-wrap:balance}
+@media(max-width:480px){#app{padding:12px 10px 80px}.card{padding:22px 16px 18px}.cert{padding:24px 14px 30px;margin:26px 10px;outline-offset:4px}.cert h1{font-size:1.7rem}.cert .body{font-size:1.02rem;padding:14px 4px;line-height:1.9}.cert .warn{font-size:.92rem}.seal{width:72px;height:72px;font-size:1rem}}
 @media print{button,.tabs{display:none}}
 </style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -99,7 +110,7 @@ let S={},T={},me=localStorage.mid||null;
 function watch(k,p){R(p).on('value',s=>{S[k]=s.val()??(k=='cfg'?{}:null);render()},e=>ui(card('⚠️ 데이터베이스에 연결하지 못했어요<br><small>'+esc(e.message)+'</small><br>Firebase 규칙이 열려 있는지 확인해 주세요.')))}
 function sInit(){watch('cfg','config');watch('days','days');watch('ros','roster');if(me)bind();render()}
 function bind(){['tgt:assign/','subs:sub/','inbox:inbox/','guess:guess/','refl:reflect/','sig:sig/','hrtMine:hearts/'].forEach(x=>{const[k,p]=x.split(':');watch(k,p+me)})}
-const K=x=>x+me+(S.cfg.run||''),tab=t=>{S.tab=t;render()},logout=()=>{localStorage.removeItem('mid');location.reload()};
+const K=x=>x+me+(S.cfg.run||''),tab=t=>{if(t!='inbox')S.nw=[];S.tab=t;render()},logout=()=>{localStorage.removeItem('mid');location.reload()};
 function view(n,h){document.body.classList.toggle('oath',!!S.dark);if(n=='pledge'&&S.view=='pledge'&&$('#cv'))return;S.view=n;ui(h);if(n=='pledge')initCv()}
 function render(){
  S.dark=false;const c=S.cfg,dy=S.days;
@@ -112,11 +123,12 @@ function render(){
  if(pi==4&&S.tgt&&localStorage[K('cu')]!=c.day){localStorage[K('cu')]=c.day;setTimeout(()=>curtain(c.day),50)}
  if(S.tgt&&S.hw!==S.tgt){S.hw=S.tgt;watch('hrtIn','hearts/'+S.tgt)}
  const pl=ph=='pledge'&&!u.pledged&&!u.excluded,ok=!pl&&u.pledged&&!u.excluded&&pi>=3&&!!S.tgt,t=ok?S.tab||'home':'home';
- S.dark=pl;
- view(pl?'pledge':'main',hdr(u,pi)+(pl?pledgeH(c):(ok?tabsH():'')+(t=='inbox'?inboxH(c,pi):t=='stamp'?stampH(c):homeH(c,u,ph,pi)))+popH(c,u))}
+ S.dark=pl;if(ok&&t=='inbox'){const un=unread(c,pi);if(un.length){S.nw=[...new Set([...(S.nw||[]),...un])];localStorage[K('ms')]=JSON.stringify([...seenK(),...un])}}
+ view(pl?'pledge':'main',hdr(u,pi)+(pl?pledgeH(c):(ok?tabsH(c,pi):'')+(t=='inbox'?inboxH(c,pi):t=='stamp'?stampH(c):homeH(c,u,ph,pi)))+popH(c,u))}
 function hdr(u,pi){const ok=u.pledged&&!u.excluded,t=ok&&pi>=3&&S.tgt;
- return '<div class="top"><div class="hl"><h2 class="ttl">마니또</h2><span class="who"'+(t?' onclick="S.pt=!S.pt;render()" style="cursor:pointer"':'')+'>'+esc(u.name)+(t?' ▾':'')+'</span>'+(t&&S.pt?'<div class="tpop">내 마니또 🤫 <b>'+esc((S.ros[S.tgt]||{}).name)+'</b></div>':'')+'</div><div class="tb">'+(ok?'<button title="홈" onclick="S.tab=\'home\';S.pp=0;render()">🏠</button><button title="서약서" onclick="S.pp=!S.pp;render()">📜</button>':'')+'<button class="g" onclick="logout()">로그아웃</button></div></div>'}
-const tabsH=()=>'<div class="stabs">'+[['home','🏠 홈'],['inbox','🎁 선물함'],['stamp','📒 스탬프판']].map(([k,l])=>'<button class="'+((S.tab||'home')==k?'p':'g')+'" onclick="tab(\''+k+'\')">'+l+'</button>').join('')+'</div>';
+ return '<div class="top"><div class="hl"><h2 class="ttl">마니또</h2><span class="who"'+(t?' onclick="S.pt=!S.pt;render()" style="cursor:pointer"':'')+'>'+esc(u.name)+(t?' ▾':'')+'</span>'+(t&&S.pt?'<div class="tpop">'+(localStorage[K('op')]?'내 마니또 🤫 <b>'+esc((S.ros[S.tgt]||{}).name)+'</b>':'<button onclick="S.gift=1;S.pt=0;render()">🎁 선물상자 열어보기</button>')+'</div>':'')+'</div><div class="tb">'+(ok?'<button title="홈" onclick="S.tab=\'home\';S.nw=[];S.pp=0;render()">🏠</button><button title="서약서" onclick="S.pp=!S.pp;render()">📜</button>':'')+'<button class="g" onclick="logout()">로그아웃</button></div></div>'}
+const vis=(c,pi)=>Object.keys(S.inbox||{}).filter(k=>pi>=5||+k.split('~')[0]<(c.day||0)),seenK=()=>JSON.parse(localStorage[K('ms')]||'[]'),unread=(c,pi)=>{const q=seenK();return vis(c,pi).filter(k=>!q.includes(k))};
+const tabsH=(c,pi)=>{const n=unread(c,pi).length;return '<div class="stabs">'+[['home','홈'],['inbox','우편함'],['stamp','스탬프']].map(([k,l])=>'<button class="'+((S.tab||'home')==k?'on':'')+'" onclick="tab(\''+k+'\')">'+l+(k=='inbox'&&n?'<i class="bd">'+n+'</i>':'')+'</button>').join('')+'</div>'};
 async function login(){const nv=v('lid').replace(/\s/g,''),pin=v('lpin').trim();
  const ids=Object.keys(S.ros||{}).filter(i=>(S.ros[i].name||'').replace(/\s/g,'')==nv);
  if(!nv||!ids.length)return toast('명단에 없는 이름이에요 🥲');
@@ -151,20 +163,23 @@ function homeH(c,u,ph,pi){
  if(ph=='revealed')return card('<p style="text-align:center">카드를 눌러 보세요 👆</p><div class="flip '+(localStorage[K('fl')]?'on':'')+'" onclick="this.classList.add(\'on\');localStorage[K(\'fl\')]=1;spark(30)"><div class="fi"><div class="ff">🎭 나의 수호천사는?</div><div class="fb"><small>나를 챙겨준 수호천사</small><h1>'+mn+'</h1></div></div></div>');
  if(ph=='reflect')return card('<h2>💌 소감을 남겨 주세요</h2><p>마니또 활동은 어땠나요?</p><textarea id="rf" rows="6" maxlength="3000">'+esc(S.refl||'')+'</textarea><div class="rt"><button class="p" onclick="refl()">'+(S.refl?'다시 제출':'제출하기')+'</button></div>'+(S.refl?'<p>✅ 제출 완료!</p>':''));
  return W('<h2>모든 활동이 끝났어요 🎉</h2><p>함께해 줘서 고마워요 💛</p>')}
-function inboxH(c,pi){const dd=c.day||0,e=Object.entries(S.inbox||{}).filter(([k])=>pi>=5||+k.split('~')[0]<dd).sort((a,b)=>a[0].localeCompare(b[0],0,{numeric:1})),h='<h2>🎁 받은 선물함</h2>';
- if(!e.length)return h+card('아직 도착한 선물이 없어요<br><small>마니또가 보낸 글은 그날 미션이 끝나고, 다음 날 미션이 열리면 도착해요 🎁</small>');
- return h+e.map(([k,x])=>{const[d,m]=k.split('~'),ms=(S.days[d]||{})[m]||{},lk=(S.hrtMine||{})[k];
-  return card('<span class="tag">Day '+d+'</span> '+esc(ms.title)+'<p class="nt">'+esc(x)+'</p><div class="rt from">'+(ms.kind=='hint'?'💛 내 수호천사가 남긴 힌트':'from. 비밀 수호천사')+'</div><div class="rt"><button class="'+(lk?'p':'g')+'" onclick="heart(\''+k+'\','+!lk+')">'+(lk?'💗':'🤍')+'</button></div>')}).join('')}
-function stampH(c){const nd=c.nDays||0,em=['🐥','⭐','🌸','🍀','🍓','🌈','🐰','🍭'],co=['#FFE98A','#FFC9DE','#BDE6FF','#D5F5C8','#FFD8B5','#E4D4FF'];let tot=0,dn=0,n=0,h='';
+function inboxH(c,pi){const e=vis(c,pi).sort((a,b)=>a.localeCompare(b,0,{numeric:1})),h='<h2>💌 우편함</h2>';
+ if(!e.length)return h+card('아직 도착한 편지가 없어요<br><small>마니또가 보낸 글은 그날 미션이 끝나고, 다음 날 미션이 열리면 도착해요</small>');
+ return h+e.map(k=>{const x=S.inbox[k],[d,m]=k.split('~'),ms=(S.days[d]||{})[m]||{},lk=(S.hrtMine||{})[k];
+  return card(((S.nw||[]).includes(k)?'<span class="tag rq">NEW</span> ':'')+'<span class="tag">Day '+d+'</span> '+esc(ms.title)+'<p class="nt">'+esc(x)+'</p><div class="rt from">'+(ms.kind=='hint'?'💛 내 수호천사가 남긴 힌트':'from. 비밀 수호천사')+'</div><div class="rt">'+(lk?'<button class="p" disabled>💗</button>':'<button class="g" onclick="heart(\''+k+'\')">🤍</button>')+'</div>')}).join('')}
+const HC=['#FF8FB1','#FFC24D','#7CC4FF','#8EDB8B','#B69CFF','#FF9F7A'],HB=['#FFE3EC','#FFF1CC','#DDF0FF','#E2F7DF','#EEE6FF','#FFE7DD'],
+HS=(f,o)=>'<svg viewBox="0 0 32 29" width="38" height="34"><path d="M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z" fill="'+(o?'none':f)+'"'+(o?' stroke="'+o+'" stroke-width="2" stroke-dasharray="3 3"':'')+'/>'+(o?'':'<ellipse cx="9" cy="8" rx="3.2" ry="2" fill="#fff" opacity=".6" transform="rotate(-30 9 8)"/>')+'</svg>';
+function stampH(c){const nd=c.nDays||0;let tot=0,dn=0,n=0,h='';
  for(let d=1;d<=nd;d++){const ms=Object.entries((S.days||{})[d]||{}),lk=d>(c.day||0),k=ms.filter(([m])=>(S.subs||{})[d+'~'+m]).length;tot+=ms.length;dn+=k;
-  h+='<div class="sc'+(d%2?'':' b')+(lk?' lk':'')+'"><div class="sh"><span>DAY '+d+(lk?' 🔒':'')+'</span><span>'+k+' / '+ms.length+(ms.length&&k==ms.length?' 🎉':'')+'</span></div><div class="slots">'+ms.map(([mid,m])=>{const s=(S.subs||{})[d+'~'+mid],i=n++;return '<div class="slot"><div class="'+(s?'sp2" style="background:'+co[i%6]+';transform:rotate('+((i*37%17)-8)+'deg)':'sp0')+'">'+(s?em[i%8]:lk?'🔒':'?')+'</div><div class="sn">'+(m.req?'⭐ ':'')+esc(m.title)+'</div></div>'}).join('')+(ms.length?'':'<small>미션 준비 중</small>')+'</div></div>'}
- return card('<h2>📒 나의 스탬프판</h2><div class="pg"><i style="width:'+(tot?Math.round(dn/tot*100):0)+'%"></i></div><p>모은 스탬프 <b>'+dn+'</b> / '+tot+'</p>')+h}
+  h+='<div class="sc'+(d%2?'':' b')+(lk?' lk':'')+'"><div class="sh"><span>DAY '+d+(lk?' 🔒':'')+'</span><span>'+k+' / '+ms.length+(ms.length&&k==ms.length?' 🎉':'')+'</span></div><div class="slots">'+ms.map(([mid,m])=>{const s=(S.subs||{})[d+'~'+mid],i=n++;return '<div class="slot">'+(s?'<div class="sp2" style="background:'+HB[i%6]+';transform:rotate('+((i*37%17)-8)+'deg)">'+HS(HC[i%6])+'</div>':'<div class="sp0">'+HS('','#E8D3A8')+'</div>')+'<div class="sn">'+(m.req?'⭐ ':'')+esc(m.title)+'</div></div>'}).join('')+(ms.length?'':'<small>미션 준비 중</small>')+'</div></div>'}
+ return card('<h2>나의 스탬프</h2><div class="pg"><i style="width:'+(tot?Math.round(dn/tot*100):0)+'%"></i></div><p>모은 스탬프 <b>'+dn+'</b> / '+tot+'</p>')+h}
 function newH(){const sn=JSON.parse(localStorage[K('hs')]||'[]');return Object.keys(S.hrtIn||{}).filter(k=>(S.subs||{})[k]&&!sn.includes(k))}
 function seenH(){const sn=JSON.parse(localStorage[K('hs')]||'[]');localStorage[K('hs')]=JSON.stringify([...sn,...newH()]);render()}
 function popH(c,u){const nh=S.tgt&&S.hrtIn?newH():[];
  if(nh.length)return '<div class="ovl"><div class="card"><h2>💗 하트 도착!</h2>'+nh.map(k=>{const[d,m]=k.split('~');return '<p>나의 마니또가 \''+esc(((S.days[d]||{})[m]||{}).title)+'\'에 하트를 눌렀습니다 💗</p>'}).join('')+'<div class="rt"><button class="p" onclick="seenH()">확인</button></div></div></div>';
+ if(S.gift&&S.tgt)return '<div class="ovl"><div class="card" style="text-align:center">'+(localStorage[K('op')]?'<p>내가 몰래 챙길 마니또는…</p><h1>'+esc((S.ros[S.tgt]||{}).name)+'</h1><p>🤫 비밀이에요!</p>':'<p>선물상자를 톡톡 쳐서 열어 보세요!</p><div class="gift" onclick="tap(this)">🎁</div>')+'<div class="rt"><button class="g" onclick="S.gift=0;render()">닫기</button></div></div></div>';
  return S.pp&&u.pledged?'<div class="ovl" onclick="if(event.target==this){S.pp=0;render()}">'+certH(c,0)+'</div>':''}
-const tg=m=>{S.open=S.open||{};S.open[m]=!S.open[m];render()},heart=(k,on)=>R('hearts/'+me+'/'+k).set(on?Date.now():null);
+const tg=m=>{S.open=S.open||{};S.open[m]=!S.open[m];render()},heart=k=>R('hearts/'+me+'/'+k).set(Date.now());
 function tap(e){e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake');e.n=(e.n||0)+1;if(e.n>=3){localStorage[K('op')]=1;spark(50);render()}}
 function sub(d,mid){if(S.cfg.day!=d)return toast('이미 지난 미션이에요');const t=document.getElementById('t_'+mid).value.trim();if(!t)return toast('내용을 써 주세요');
  const m=S.days[d][mid],o={};o['sub/'+me+'/'+d+'~'+mid]={t,ts:Date.now()};if(m.anon&&S.tgt)o['inbox/'+S.tgt+'/'+d+'~'+mid]=t;
@@ -172,7 +187,7 @@ function sub(d,mid){if(S.cfg.day!=d)return toast('이미 지난 미션이에요'
 function guess(){const g=v('gs');if(!g)return toast('친구를 골라 주세요');R('guess/'+me).set(g).then(()=>toast('제출했어요!'))}
 function refl(){const t=v('rf').trim();if(!t)return toast('소감을 써 주세요');R('reflect/'+me).set(t).then(()=>toast('제출했어요 💌'))}
 function certH(c,sg){return '<div class="cert"><div class="orn">✦ ❖ ✦</div><h1>서 약 서</h1><div class="orn">━━━━━━━</div><div class="body">'+esc(c.pledgeText||'(서약서 내용이 아직 없어요)')+'</div><p class="warn">이 약속을 어기는 것은 모두의 신뢰를 저버리는 일입니다.<br>한 번 서명한 약속은 반드시 지켜야 합니다.</p>'+
- (sg?'<p class="oathnote">아래 서명란에 서명해 주세요.</p><canvas id="cv" width="600" height="300"></canvas><div class="sgn">서명</div><div class="rt"><button class="og" onclick="clrCv()">다시 서명</button><button class="oa" onclick="signCv()">서명하기</button></div>':'<div class="sgn">서명</div>'+(S.sig?'<img src="'+S.sig+'" style="width:100%;max-width:420px;display:block;margin-left:auto">':'')+'<div class="seal">서약<br>완료</div>')+'</div>'}
+ (sg?'<p class="oathnote">아래 서명란에 서명해 주세요.</p><canvas id="cv" width="600" height="300"></canvas><div class="sgn">서명</div><div class="rt"><button class="og" onclick="clrCv()">다시 서명</button><button class="oa" onclick="signCv()">서명하기</button></div>':'<div class="sigrow"><div class="seal">서약<br>완료</div><div class="sgw"><div class="sgn">서명</div>'+(S.sig?'<img src="'+S.sig+'">':'')+'</div></div><div class="rt"><button class="og" onclick="S.pp=0;render()">닫기</button></div>')+'</div>'}
 const pledgeH=c=>certH(c,1);
 let inked=false;const PT='위 서약의 내용대로 마니또 활동에 성실히 임하겠습니다.';
 function drawTxt(){const cv=$('#cv');if(!cv)return;const x=cv.getContext('2d');x.clearRect(0,0,cv.width,cv.height);x.save();x.fillStyle='#3A2A12';x.textBaseline='top';const w=cv.getBoundingClientRect().width||600;let z=Math.max(10,Math.round(10*600/w));x.font='400 '+z+'px Batang,"Noto Serif KR",serif';while(x.measureText(PT).width>560&&z>10){z--;x.font='400 '+z+'px Batang,"Noto Serif KR",serif'}x.fillText(PT,20,16);x.restore()}
