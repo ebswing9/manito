@@ -17,7 +17,7 @@ body{margin:0;font-family:'Geurimilgi','Apple SD Gothic Neo','Malgun Gothic',san
 .fr h2,.fr h3,div[style*="text-align:center"] h2{margin-left:auto;margin-right:auto}
 h1,h2,h3,b,strong,th,button,.tag,.ct,.ff,.stamp,.bar span{font-family:var(--hd);font-weight:400}h1{font-size:2rem}h2{font-size:1.5rem}h3{font-size:1.2rem}h1,h2,h3{margin:.4em 0;letter-spacing:.5px}p{line-height:1.7}
 button,input,select,textarea{font:inherit;color:inherit}
-button{background:var(--y);border:0;border-radius:999px;padding:10px 20px;box-shadow:0 4px 0 #EBCB55;cursor:pointer;margin:6px 5px;color:var(--t)}
+button{font-family:var(--hd);background:var(--y);border:0;border-radius:999px;padding:10px 20px;box-shadow:0 4px 0 #EBCB55;cursor:pointer;margin:6px 5px;color:var(--t)}
 button:active{transform:translateY(4px);box-shadow:none}
 button.p{background:var(--p);box-shadow:0 4px 0 #e89986}button.g{background:#f0eee6;box-shadow:0 4px 0 #d3cfc0}button.b{background:var(--b);box-shadow:0 4px 0 #92c6e6}
 input,select,textarea{width:100%;border:2px solid #FFE38A;border-radius:16px;padding:11px 14px;background:#fffdf3;margin:6px 0}input:focus,select:focus,textarea:focus{outline:0;border-color:var(--p)}input[type=checkbox]{width:22px!important;height:22px;margin:0;accent-color:#FF9F8A}
@@ -42,6 +42,20 @@ td.red{background:#ffd1d1}tr.sel td{background:var(--b)}.tabs{position:sticky;to
 .pg{height:14px;background:#eee;border-radius:10px;overflow:hidden}.pg i{display:block;height:100%;background:var(--p)}
 canvas{width:100%;height:150px;background:#fffdf0;border:3px dashed var(--p);border-radius:16px;touch-action:none}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--t);color:#fff;padding:10px 18px;border-radius:20px;z-index:100}
+body.oath{background:radial-gradient(ellipse at 50% -10%,#4a3572 0,#1a1836 55%,#0d0d1f 100%);background-attachment:fixed}
+.top{justify-content:space-between;align-items:flex-start}.top h2{margin:.1em 0}.ttl{font-size:1.8rem}.who{font-family:var(--hd);font-size:1.15rem;color:#E58F72}.tb{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tb button{margin:0;padding:8px 14px}
+.oath .ttl,.oath .who{color:#F3D98A}
+.cert{position:relative;background:#FBF4DF;color:#3A2A12;border:3px double #B8923A;outline:2px solid #B8923A;outline-offset:6px;border-radius:6px;padding:30px 22px 34px;margin:34px 8px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.cert .orn{text-align:center;color:#B8923A;letter-spacing:.6em;margin:4px 0}
+.cert h1{text-align:center;font-size:2.1rem;letter-spacing:.5em;text-indent:.5em;margin:.2em 0;color:#5A1622}
+.cert .lead{text-align:center;font-family:var(--hd);font-size:1.05rem;line-height:1.7}
+.cert .body{white-space:pre-wrap;line-height:1.9;font-size:1.1rem;border-left:4px solid #B8923A;padding:10px 14px;margin:16px 0;background:rgba(184,146,58,.09)}
+.cert .warn{font-family:var(--hd);color:#8A1C2B;text-align:center;line-height:1.8;margin:18px 0}
+.cert .oathnote{text-align:center;font-family:var(--hd);line-height:1.8}
+.cert canvas{background:#FFFDF6;border:2px solid #B8923A;border-radius:4px;height:160px}
+.cert .sgn{font-family:var(--hd);text-align:right;margin:8px 0 2px;color:#5A1622}
+button.oa{background:#7A1F2B;color:#F6DC8A;box-shadow:0 4px 0 #4A1119}button.og{background:#E9DCB8;color:#5A4318;box-shadow:0 4px 0 #B9A76F}
+.seal{position:absolute;left:24px;bottom:22px;width:88px;height:88px;border-radius:50%;border:4px double #B3202F;color:#B3202F;display:flex;align-items:center;justify-content:center;font-family:var(--hd);font-size:1.25rem;transform:rotate(-14deg);opacity:.85;text-align:center;line-height:1.2}
 @media print{button,.tabs{display:none}}
 </style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -67,23 +81,27 @@ function watch(k,p){R(p).on('value',s=>{S[k]=s.val()??(k=='cfg'?{}:null);render(
 function sInit(){watch('cfg','config');watch('days','days');watch('ros','roster');if(me)bind();render()}
 function bind(){['pin:pins/','tgt:assign/','subs:sub/','inbox:inbox/','hin:hintFor/','hint:hint/','guess:guess/','refl:reflect/','sig:sig/'].forEach(x=>{const[k,p]=x.split(':');watch(k,p+me)})}
 const K=x=>x+me+(S.cfg.run||'');
-function view(n,h){if(n=='pledge'&&S.view=='pledge'&&$('#cv'))return;S.view=n;ui(h);if(n=='pledge')initCv()}
+function view(n,h){document.body.classList.toggle('oath',!!S.dark);if(n=='pledge'&&S.view=='pledge'&&$('#cv'))return;S.view=n;ui(h);if(n=='pledge')initCv()}
 function render(){
- const c=S.cfg,dy=S.days;if(c===undefined||dy===undefined){if(!$('#app').innerHTML.trim())ui(card('<div style="text-align:center">'+CH+'<p>연결 중이에요…</p></div>'));return}
+ S.dark=false;const c=S.cfg,dy=S.days;if(c===undefined||dy===undefined){if(!$('#app').innerHTML.trim())ui(card('<div style="text-align:center">'+CH+'<p>연결 중이에요…</p></div>'));return}
  const ph=c.phase||'ready',pi=P.indexOf(ph);
- if(!me)return view('login',card('<div style="text-align:center">'+CH+'<h1>🐥 마니또</h1></div><input id="lid" placeholder="학번" inputmode="numeric" onkeydown="if(event.key==\'Enter\')login()"><input id="lpin" type="password" inputmode="numeric" maxlength="4" onkeydown="if(event.key==\'Enter\')login()" placeholder="PIN 숫자 4자리 (처음이면 새로 정해요)"><button class="p" onclick="login()">들어가기</button>'));
+ if(!me)return view('login',card('<div style="text-align:center">'+CH+'<h1>마니또</h1></div><input id="lid" placeholder="이름" onkeydown="if(event.key==\'Enter\')login()"><input id="lpin" type="password" inputmode="numeric" maxlength="4" onkeydown="if(event.key==\'Enter\')login()" placeholder="PIN 숫자 4자리 (처음이면 새로 정해요)"><button class="p" onclick="login()">들어가기</button>'));
  const u=(S.ros||{})[me];
- if(!u)return view('x',card('명단에서 학번을 찾을 수 없어요 🥲<br><button onclick="logout()">다른 학번으로</button>'));
+ if(!u)return view('x',card('명단에서 이름을 찾을 수 없어요 🥲<br><button onclick="logout()">다른 학번으로</button>'));
  if(pi>=6&&S.mani===undefined&&S.tgt){S.mani=null;R('assign').get().then(s=>{const a=s.val()||{};S.mani=Object.keys(a).find(k=>a[k]==me)||0;render()})}
  if(pi==4&&S.tgt&&localStorage[K('cu')]!=c.day){localStorage[K('cu')]=c.day;setTimeout(()=>curtain(c.day),50)}
  const pl=ph=='pledge'&&!u.pledged&&!u.excluded,tabOk=S.tab&&S.tab!='home'&&u.pledged&&(S.tab=='pledge'||(pi>=3&&S.tgt));
- view(pl?'pledge':'main',hdr(u,pi)+(pl?pledgeH(c):tabOk?tabH(S.tab,c):homeH(c,u,ph,pi)));
+ S.dark=pl||!!(tabOk&&S.tab=='pledge');view(pl?'pledge':'main',hdr(u,pi)+(pl?pledgeH(c):tabOk?tabH(S.tab,c):homeH(c,u,ph,pi)));
 }
-function hdr(u,pi){let m='';if(u.pledged&&!u.excluded){const t=pi>=3&&S.tgt;m='<div class="menu"><button onclick="tab(\'home\')">🏠 홈</button>'+(t?'<button onclick="tab(\'inbox\')">🎁 선물함</button><button onclick="tab(\'stamp\')">📒 스탬프판</button><button onclick="tab(\'hint\')">💛 내 힌트</button>':'')+'<button onclick="tab(\'pledge\')">📜 서약서</button></div>'}
- return '<div class="top">'+CH+'<div><h2>🐥 마니또</h2>'+esc(u.name)+' <button class="g" onclick="logout()">로그아웃</button></div></div>'+m}
+function hdr(u,pi){const ok=u.pledged&&!u.excluded,t=ok&&pi>=3&&S.tgt;
+ return '<div class="top"><div><h2 class="ttl">마니또</h2><div class="who">'+esc(u.name)+'</div></div><div class="tb">'+(ok?'<button title="홈" onclick="tab(\'home\')">🏠</button><button title="서약서" onclick="tab(\'pledge\')">📜</button>':'')+'<button class="g" onclick="logout()">로그아웃</button></div></div>'+
+ (t?'<div class="menu"><button onclick="tab(\'inbox\')">🎁 선물함</button><button onclick="tab(\'stamp\')">📒 스탬프판</button><button onclick="tab(\'hint\')">💛 내 힌트</button></div>':'')}
 const tab=t=>{S.tab=t;render()},logout=()=>{localStorage.removeItem('mid');location.reload()};
-async function login(){const id=v('lid').trim(),pin=v('lpin').trim();
- if(!S.ros||!S.ros[id])return toast('명단에 없는 학번이에요 🥲');
+async function login(){const nv=v('lid').replace(/\s/g,''),pin=v('lpin').trim();
+ const ids=Object.keys(S.ros||{}).filter(i=>(S.ros[i].name||'').replace(/\s/g,'')==nv);
+ if(!nv||!ids.length)return toast('명단에 없는 이름이에요 🥲');
+ if(ids.length>1)return toast('같은 이름의 친구가 있어요. 선생님께 알려주세요');
+ const id=ids[0];
  if(!/^\d{4}$/.test(pin))return toast('PIN은 숫자 4자리예요');
  const p=(await R('pins/'+id).get()).val();
  if(p==null)await R('pins/'+id).set(pin);else if(p!=pin)return toast('PIN이 달라요 🙈');
@@ -110,7 +128,7 @@ function homeH(c,u,ph,pi){
  if(ph=='reflect')return card('<h2>💌 소감을 남겨 주세요</h2><p>마니또 활동은 어땠나요?</p><textarea id="rf" rows="6" maxlength="3000">'+esc(S.refl||'')+'</textarea><button class="p" onclick="refl()">'+(S.refl?'다시 제출':'제출하기')+'</button>'+(S.refl?'<p>✅ 제출 완료!</p>':''));
  return card('<div style="text-align:center">'+CH+'<h2>모든 활동이 끝났어요 🎉</h2><p>함께해 줘서 고마워요 💛</p></div>')}
 function tabH(t,c){
- if(t=='pledge')return card('<h2>📜 나의 서약서</h2><p style="white-space:pre-wrap">'+esc(c.pledgeText)+'</p>'+(S.sig?'<img src="'+S.sig+'" style="width:100%;max-width:300px">':''));
+ if(t=='pledge')return certH(c,0);
  const nd=c.nDays||0;
  if(t=='inbox'){const e=Object.entries(S.inbox||{}).sort((a,b)=>a[0].localeCompare(b[0],0,{numeric:1}));
   return '<h2>🎁 받은 선물함</h2>'+(e.length?e.map(([k,x])=>{const[d,m]=k.split('~');return card('<span class="tag">Day '+d+'</span> '+esc(((S.days[d]||{})[m]||{}).title)+'<p style="white-space:pre-wrap">'+esc(x)+'</p><small>from. 비밀의 수호천사 🤫</small>')}).join(''):card('아직 도착한 선물이 없어요'))}
@@ -124,16 +142,18 @@ function sub(d,mid){if(S.cfg.day!=d)return toast('이미 지난 미션이에요'
 const guess=()=>{const g=v('gs');if(!g)return toast('친구를 골라 주세요');R('guess/'+me).set(g).then(()=>toast('제출했어요!'))},
 refl=()=>{const t=v('rf').trim();if(!t)return toast('소감을 써 주세요');R('reflect/'+me).set(t).then(()=>toast('제출했어요 💌'))},
 hint=()=>{const t=v('hs').trim();if(!t)return;const o={['hint/'+me]:t};if(S.tgt)o['hintFor/'+S.tgt]=t;db.ref().update(o).then(()=>toast('저장했어요 💛'))};
-function pledgeH(c){return card('<h2>📜 마니또 서약서</h2><p style="white-space:pre-wrap">'+esc(c.pledgeText||'(서약서 내용이 아직 없어요)')+'</p><p>아래에 손가락으로 서명해 주세요 ✍️</p><canvas id="cv" width="600" height="300"></canvas><button class="g" onclick="clrCv()">지우기</button><button class="p" onclick="signCv()">서약하기</button>')}
+function certH(c,sg){return '<div class="cert"><div class="orn">✦ ❖ ✦</div><h1>서 약 서</h1><div class="orn">━━━━━━━</div><p class="lead">나는 마니또 활동에 참여하며<br>아래의 약속을 끝까지 지킬 것을 맹세합니다.</p><div class="body">'+esc(c.pledgeText||'(서약서 내용이 아직 없어요)')+'</div><p class="warn">이 약속을 어기는 것은<br>친구와 우리 반 모두의 신뢰를 저버리는 일입니다.<br>한 번 서명한 약속은 반드시 지켜야 합니다.</p>'+
+ (sg?'<p class="oathnote">위 내용을 하나도 빠짐없이 지킬 것을 맹세하며<br>아래에 서명합니다.</p><canvas id="cv" width="600" height="300"></canvas><div class="sgn">서명</div><div class="row" style="justify-content:center"><button class="og" onclick="clrCv()">다시 서명</button><button class="oa" onclick="signCv()">맹세하고 서명하기</button></div>':'<div class="sgn">서명</div>'+(S.sig?'<img src="'+S.sig+'" style="width:100%;max-width:300px;display:block;margin-left:auto">':'')+'<div class="seal">서약<br>완료</div>')+'</div>'}
+const pledgeH=c=>certH(c,1);
 let inked=false;
-function initCv(){const cv=$('#cv');if(!cv)return;inked=false;const x=cv.getContext('2d');x.lineWidth=5;x.lineCap='round';x.strokeStyle='#6B4E1E';let d=false;
+function initCv(){const cv=$('#cv');if(!cv)return;inked=false;const x=cv.getContext('2d');x.lineWidth=5;x.lineCap='round';x.strokeStyle='#1C2A5E';let d=false;
  const pt=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
  cv.onpointerdown=e=>{d=true;const[a,b]=pt(e);x.beginPath();x.moveTo(a,b);cv.setPointerCapture(e.pointerId)};
  cv.onpointermove=e=>{if(!d)return;const[a,b]=pt(e);x.lineTo(a,b);x.stroke();inked=true};
  cv.onpointerup=()=>d=false}
 const clrCv=()=>{const cv=$('#cv');cv.getContext('2d').clearRect(0,0,cv.width,cv.height);inked=false};
-function signCv(){if(!inked)return toast('서명을 해 주세요');const s=document.createElement('canvas');s.width=300;s.height=150;s.getContext('2d').drawImage($('#cv'),0,0,300,150);
- db.ref().update({['sig/'+me]:s.toDataURL('image/png'),['roster/'+me+'/pledged']:true}).then(()=>{S.view='';spark(30)})}
+function signCv(){if(!inked)return toast('서명을 해 주세요');if(!confirm('서약서의 내용을 끝까지 지킬 것을 맹세하고 서명할까요?'))return;const s=document.createElement('canvas');s.width=300;s.height=150;s.getContext('2d').drawImage($('#cv'),0,0,300,150);
+ db.ref().update({['sig/'+me]:s.toDataURL('image/png'),['roster/'+me+'/pledged']:true}).then(()=>{S.view='';toast('서약이 완료되었어요.')})}
 
 /* ================= 관리자 ================= */
 let A={},atab='prog',SEL=[],SP={};
