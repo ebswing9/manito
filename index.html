@@ -48,6 +48,7 @@ canvas{width:100%;height:150px;background:#fffdf0;border:3px dashed var(--p);bor
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="config.js"></script>
 <script>
+window.addEventListener('error',e=>{const a=document.getElementById('app');if(a&&!a.innerHTML.trim())a.innerHTML='<div class="card">⚠️ 오류가 났어요<br><small>'+String(e.message).replace(/</g,'&lt;')+'</small><br>config.js가 같이 올라가 있는지, Firebase 값이 채워져 있는지 확인해 주세요.</div>'});
 firebase.initializeApp(FB);const db=firebase.database();const R=p=>db.ref(p);
 const $=s=>document.querySelector(s),v=id=>document.getElementById(id).value,
 esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
@@ -59,17 +60,16 @@ function toast(t){const e=document.createElement('div');e.className='toast';e.te
 function spark(n=30){for(let i=0;i<n;i++){const s=document.createElement('span');s.className='sp';s.textContent=['⭐','✨','🌟','💛','🌸'][i%5];s.style.left=Math.random()*100+'vw';s.style.animationDuration=2+Math.random()*2+'s';s.style.fontSize=14+Math.random()*18+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),4500)}}
 function curtain(d){const e=document.createElement('div');e.className='cur';e.innerHTML='<i class="l"></i><i class="r"></i><div class="ct">🌟 Day '+d+'<br>미션이 열렸어요!</div>';document.body.appendChild(e);spark(40);setTimeout(()=>e.classList.add('open'),1400);setTimeout(()=>e.remove(),3200)}
 window.onhashchange=()=>location.reload();
-location.hash=='#admin'?aInit():sInit();
 
 /* ================= 학생 ================= */
 let S={},T={},me=localStorage.mid||null;
-function watch(k,p){R(p).on('value',s=>{S[k]=s.val()??(k=='cfg'?{}:null);render()})}
+function watch(k,p){R(p).on('value',s=>{S[k]=s.val()??(k=='cfg'?{}:null);render()},e=>ui(card('⚠️ 데이터베이스에 연결하지 못했어요<br><small>'+esc(e.message)+'</small><br>Firebase 규칙이 열려 있는지 확인해 주세요.')))}
 function sInit(){watch('cfg','config');watch('days','days');watch('ros','roster');if(me)bind();render()}
 function bind(){['pin:pins/','tgt:assign/','subs:sub/','inbox:inbox/','hin:hintFor/','hint:hint/','guess:guess/','refl:reflect/','sig:sig/'].forEach(x=>{const[k,p]=x.split(':');watch(k,p+me)})}
 const K=x=>x+me+(S.cfg.run||'');
 function view(n,h){if(n=='pledge'&&S.view=='pledge'&&$('#cv'))return;S.view=n;ui(h);if(n=='pledge')initCv()}
 function render(){
- const c=S.cfg,dy=S.days;if(c===undefined||dy===undefined)return;
+ const c=S.cfg,dy=S.days;if(c===undefined||dy===undefined){if(!$('#app').innerHTML.trim())ui(card('<div style="text-align:center">'+CH+'<p>연결 중이에요…</p></div>'));return}
  const ph=c.phase||'ready',pi=P.indexOf(ph);
  if(!me)return view('login',card('<div style="text-align:center">'+CH+'<h1>🐥 마니또</h1></div><input id="lid" placeholder="학번" inputmode="numeric" onkeydown="if(event.key==\'Enter\')login()"><input id="lpin" type="password" inputmode="numeric" maxlength="4" onkeydown="if(event.key==\'Enter\')login()" placeholder="PIN 숫자 4자리 (처음이면 새로 정해요)"><button class="p" onclick="login()">들어가기</button>'));
  const u=(S.ros||{})[me];
@@ -224,4 +224,5 @@ function resetAll(){if(!confirm('배정·제출물·힌트·추측·소감·서�
  const u={};['assign','draft','sub','inbox','hint','hintFor','guess','reflect','sig'].forEach(k=>u[k]=null);
  Object.keys(A.roster||{}).forEach(i=>u['roster/'+i+'/pledged']=false);
  u['config/phase']='ready';u['config/day']=0;u['config/hintOpen']=false;u['config/run']=Date.now();db.ref().update(u).then(()=>toast('초기화했어요'))}
+location.hash=='#admin'?aInit():sInit();
 </script></body></html>
