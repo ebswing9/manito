@@ -5,7 +5,9 @@
 <style>
 @font-face{font-family:"Geurimilgi";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimGeurimilgiTTF-R.woff2") format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"Maple";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff") format("woff");font-weight:400;font-display:swap}
-:root{--hd:"Maple","Geurimilgi","Apple SD Gothic Neo",sans-serif;--y:#FFE98A;--y2:#FFF7CF;--p:#FFB8A8;--pk:#FFC9DE;--b:#BDE6FF;--t:#6B4E1E}
+@font-face{font-family:"Batang";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimBareonbatangR.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Batang";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimBareonbatangB.woff2") format("woff2");font-weight:700;font-display:swap}
+:root{--sf:"Batang","Noto Serif KR","Nanum Myeongjo",serif;--hd:"Maple","Geurimilgi","Apple SD Gothic Neo",sans-serif;--y:#FFE98A;--y2:#FFF7CF;--p:#FFB8A8;--pk:#FFC9DE;--b:#BDE6FF;--t:#6B4E1E}
 *{box-sizing:border-box}
 body{margin:0;font-family:'Geurimilgi','Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:17px;color:var(--t);min-height:100vh;background:linear-gradient(165deg,#FFFAE0 0%,#FFF3C8 50%,#FFEBE3 100%);background-attachment:fixed}
 #app{max-width:680px;margin:0 auto;padding:14px 14px 80px}#app.adm{max-width:1000px}
@@ -43,19 +45,19 @@ td.red{background:#ffd1d1}tr.sel td{background:var(--b)}.tabs{position:sticky;to
 canvas{width:100%;height:150px;background:#fffdf0;border:3px dashed var(--p);border-radius:16px;touch-action:none}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--t);color:#fff;padding:10px 18px;border-radius:20px;z-index:100}
 body.oath{background:radial-gradient(ellipse at 50% -10%,#4a3572 0,#1a1836 55%,#0d0d1f 100%);background-attachment:fixed}
-.top{justify-content:space-between;align-items:flex-start}.top h2{margin:.1em 0}.ttl{font-size:1.8rem}.who{font-family:var(--hd);font-size:1.15rem;color:#E58F72}.tb{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tb button{margin:0;padding:8px 14px}
+.top{justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.hl{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.top h2{margin:.1em 0}.ttl{font-size:1.8rem}.who{font-family:var(--hd);font-size:1.25rem;color:#E58F72}.tb{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tb button{margin:0;padding:8px 14px}
 .oath .ttl,.oath .who{color:#F3D98A}
-.cert{position:relative;background:#FBF4DF;color:#3A2A12;border:3px double #B8923A;outline:2px solid #B8923A;outline-offset:6px;border-radius:6px;padding:30px 22px 34px;margin:34px 8px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.cert{position:relative;font-family:var(--sf);background:#FBF4DF;color:#3A2A12;border:3px double #B8923A;outline:2px solid #B8923A;outline-offset:6px;border-radius:6px;padding:30px 22px 36px;margin:34px 8px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .cert .orn{text-align:center;color:#B8923A;letter-spacing:.6em;margin:4px 0}
-.cert h1{text-align:center;font-size:2.1rem;letter-spacing:.5em;text-indent:.5em;margin:.2em 0;color:#5A1622}
-.cert .lead{text-align:center;font-family:var(--hd);font-size:1.05rem;line-height:1.7}
-.cert .body{white-space:pre-wrap;line-height:1.9;font-size:1.1rem;border-left:4px solid #B8923A;padding:10px 14px;margin:16px 0;background:rgba(184,146,58,.09)}
-.cert .warn{font-family:var(--hd);color:#8A1C2B;text-align:center;line-height:1.8;margin:18px 0}
-.cert .oathnote{text-align:center;font-family:var(--hd);line-height:1.8}
-.cert canvas{background:#FFFDF6;border:2px solid #B8923A;border-radius:4px;height:160px}
-.cert .sgn{font-family:var(--hd);text-align:right;margin:8px 0 2px;color:#5A1622}
+.cert h1{font-family:var(--sf);font-weight:700;text-align:center;font-size:2.1rem;letter-spacing:.5em;text-indent:.5em;margin:.2em 0;color:#5A1622}
+.cert .body{white-space:pre-wrap;text-align:center;line-height:2;font-size:1.15rem;font-weight:700;border-top:2px solid #B8923A;border-bottom:2px solid #B8923A;padding:18px 10px;margin:20px 0;background:rgba(184,146,58,.09)}
+.cert .warn{font-weight:700;color:#8A1C2B;text-align:center;line-height:1.9;margin:18px 0}
+.cert .oathnote{text-align:center;margin:14px 0 8px}
+.cert canvas{height:auto;aspect-ratio:2/1;background:#FFFDF6;border:2px solid #B8923A;border-radius:4px}
+.cert .sgn{text-align:right;margin:8px 0 2px;color:#5A1622}
+.cert button{font-family:var(--sf);font-weight:700}
 button.oa{background:#7A1F2B;color:#F6DC8A;box-shadow:0 4px 0 #4A1119}button.og{background:#E9DCB8;color:#5A4318;box-shadow:0 4px 0 #B9A76F}
-.seal{position:absolute;left:24px;bottom:22px;width:88px;height:88px;border-radius:50%;border:4px double #B3202F;color:#B3202F;display:flex;align-items:center;justify-content:center;font-family:var(--hd);font-size:1.25rem;transform:rotate(-14deg);opacity:.85;text-align:center;line-height:1.2}
+.seal{position:absolute;left:24px;bottom:22px;width:88px;height:88px;border-radius:50%;border:4px double #B3202F;color:#B3202F;display:flex;align-items:center;justify-content:center;font-family:var(--sf);font-weight:700;font-size:1.2rem;transform:rotate(-14deg);opacity:.85;text-align:center;line-height:1.2}
 @media print{button,.tabs{display:none}}
 </style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -94,7 +96,7 @@ function render(){
  S.dark=pl||!!(tabOk&&S.tab=='pledge');view(pl?'pledge':'main',hdr(u,pi)+(pl?pledgeH(c):tabOk?tabH(S.tab,c):homeH(c,u,ph,pi)));
 }
 function hdr(u,pi){const ok=u.pledged&&!u.excluded,t=ok&&pi>=3&&S.tgt;
- return '<div class="top"><div><h2 class="ttl">마니또</h2><div class="who">'+esc(u.name)+'</div></div><div class="tb">'+(ok?'<button title="홈" onclick="tab(\'home\')">🏠</button><button title="서약서" onclick="tab(\'pledge\')">📜</button>':'')+'<button class="g" onclick="logout()">로그아웃</button></div></div>'+
+ return '<div class="top"><div class="hl"><h2 class="ttl">마니또</h2><span class="who">'+esc(u.name)+'</span></div><div class="tb">'+(ok?'<button title="홈" onclick="tab(\'home\')">🏠</button><button title="서약서" onclick="tab(\'pledge\')">📜</button>':'')+'<button class="g" onclick="logout()">로그아웃</button></div></div>'+
  (t?'<div class="menu"><button onclick="tab(\'inbox\')">🎁 선물함</button><button onclick="tab(\'stamp\')">📒 스탬프판</button><button onclick="tab(\'hint\')">💛 내 힌트</button></div>':'')}
 const tab=t=>{S.tab=t;render()},logout=()=>{localStorage.removeItem('mid');location.reload()};
 async function login(){const nv=v('lid').replace(/\s/g,''),pin=v('lpin').trim();
@@ -142,18 +144,21 @@ function sub(d,mid){if(S.cfg.day!=d)return toast('이미 지난 미션이에요'
 const guess=()=>{const g=v('gs');if(!g)return toast('친구를 골라 주세요');R('guess/'+me).set(g).then(()=>toast('제출했어요!'))},
 refl=()=>{const t=v('rf').trim();if(!t)return toast('소감을 써 주세요');R('reflect/'+me).set(t).then(()=>toast('제출했어요 💌'))},
 hint=()=>{const t=v('hs').trim();if(!t)return;const o={['hint/'+me]:t};if(S.tgt)o['hintFor/'+S.tgt]=t;db.ref().update(o).then(()=>toast('저장했어요 💛'))};
-function certH(c,sg){return '<div class="cert"><div class="orn">✦ ❖ ✦</div><h1>서 약 서</h1><div class="orn">━━━━━━━</div><p class="lead">나는 마니또 활동에 참여하며<br>아래의 약속을 끝까지 지킬 것을 맹세합니다.</p><div class="body">'+esc(c.pledgeText||'(서약서 내용이 아직 없어요)')+'</div><p class="warn">이 약속을 어기는 것은<br>친구와 우리 반 모두의 신뢰를 저버리는 일입니다.<br>한 번 서명한 약속은 반드시 지켜야 합니다.</p>'+
- (sg?'<p class="oathnote">위 내용을 하나도 빠짐없이 지킬 것을 맹세하며<br>아래에 서명합니다.</p><canvas id="cv" width="600" height="300"></canvas><div class="sgn">서명</div><div class="row" style="justify-content:center"><button class="og" onclick="clrCv()">다시 서명</button><button class="oa" onclick="signCv()">맹세하고 서명하기</button></div>':'<div class="sgn">서명</div>'+(S.sig?'<img src="'+S.sig+'" style="width:100%;max-width:300px;display:block;margin-left:auto">':'')+'<div class="seal">서약<br>완료</div>')+'</div>'}
+function certH(c,sg){return '<div class="cert"><div class="orn">✦ ❖ ✦</div><h1>서 약 서</h1><div class="orn">━━━━━━━</div><div class="body">'+esc(c.pledgeText||'(서약서 내용이 아직 없어요)')+'</div><p class="warn">이 약속을 어기는 것은 모두의 신뢰를 저버리는 일입니다.<br>한 번 서명한 약속은 반드시 지켜야 합니다.</p>'+
+ (sg?'<p class="oathnote">아래 서명란에 서명해 주세요.</p><canvas id="cv" width="600" height="300"></canvas><div class="sgn">서명</div><div class="row" style="justify-content:center"><button class="og" onclick="clrCv()">다시 서명</button><button class="oa" onclick="signCv()">서명하기</button></div>':'<div class="sgn">서명</div>'+(S.sig?'<img src="'+S.sig+'" style="width:100%;max-width:420px;display:block;margin-left:auto">':'')+'<div class="seal">서약<br>완료</div>')+'</div>'}
 const pledgeH=c=>certH(c,1);
-let inked=false;
-function initCv(){const cv=$('#cv');if(!cv)return;inked=false;const x=cv.getContext('2d');x.lineWidth=5;x.lineCap='round';x.strokeStyle='#1C2A5E';let d=false;
+let inked=false;const PT=['위 서약의 내용대로','마니또 활동에 성실히 임하겠습니다.'];
+function drawTxt(){const cv=$('#cv');if(!cv)return;const x=cv.getContext('2d');x.clearRect(0,0,cv.width,cv.height);x.save();x.fillStyle='#3A2A12';x.font='700 26px Batang,"Noto Serif KR",serif';x.textBaseline='top';PT.forEach((t,i)=>x.fillText(t,20,16+i*38));x.restore()}
+function initCv(){const cv=$('#cv');if(!cv)return;inked=false;const x=cv.getContext('2d');x.lineWidth=5;x.lineCap='round';x.lineJoin='round';x.strokeStyle='#1C2A5E';let d=false;
+ drawTxt();document.fonts.load('700 26px Batang').then(()=>{if(!inked)drawTxt()},()=>{});
  const pt=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
  cv.onpointerdown=e=>{d=true;const[a,b]=pt(e);x.beginPath();x.moveTo(a,b);cv.setPointerCapture(e.pointerId)};
  cv.onpointermove=e=>{if(!d)return;const[a,b]=pt(e);x.lineTo(a,b);x.stroke();inked=true};
  cv.onpointerup=()=>d=false}
-const clrCv=()=>{const cv=$('#cv');cv.getContext('2d').clearRect(0,0,cv.width,cv.height);inked=false};
-function signCv(){if(!inked)return toast('서명을 해 주세요');if(!confirm('서약서의 내용을 끝까지 지킬 것을 맹세하고 서명할까요?'))return;const s=document.createElement('canvas');s.width=300;s.height=150;s.getContext('2d').drawImage($('#cv'),0,0,300,150);
- db.ref().update({['sig/'+me]:s.toDataURL('image/png'),['roster/'+me+'/pledged']:true}).then(()=>{S.view='';toast('서약이 완료되었어요.')})}
+const clrCv=()=>{inked=false;drawTxt()};
+function signCv(){if(!inked)return toast('서명을 해 주세요');if(!confirm('서약서 내용을 확인했어요. 서명을 제출할까요?'))return;
+ const e=document.createElement('canvas');e.width=600;e.height=300;const g=e.getContext('2d');g.fillStyle='#FFFDF6';g.fillRect(0,0,600,300);g.drawImage($('#cv'),0,0);
+ db.ref().update({['sig/'+me]:e.toDataURL('image/png'),['roster/'+me+'/pledged']:true}).then(()=>{S.view='';toast('서약이 완료되었어요.')})}
 
 /* ================= 관리자 ================= */
 let A={},atab='prog',SEL=[],SP={};
@@ -233,7 +238,7 @@ function pSub(){const c=cf(),n=c.nDays||0,d=SP.sd||c.day||1,ms=Object.entries((A
 function pRes(){const pt=part();
  return card('<button class="p" onclick="csv()">📥 CSV 내보내기 (제출물·힌트·추측·소감)</button><button onclick="window.print()">🖨 인쇄</button><button class="g" onclick="resetAll()">🧹 테스트 초기화</button>')+
  card('<div class="wrap"><table><tr><th>이름</th><th>힌트</th><th>추측</th><th>소감</th></tr>'+pt.map(([i,u])=>{const g=(A.guess||{})[i];return'<tr><td>'+esc(u.name)+'</td><td>'+esc((A.hint||{})[i])+'</td><td>'+(g?esc(nm(g)):'-')+'</td><td style="text-align:left">'+esc((A.reflect||{})[i])+'</td></tr>'}).join('')+'</table></div>')+
- card('<h3>✍️ 서명 모음</h3>'+pt.map(([i,u])=>(A.sig||{})[i]?'<div style="display:inline-block;text-align:center"><img src="'+A.sig[i]+'" width="150"><br>'+esc(u.name)+'</div>':'').join(''))}
+ card('<h3>✍️ 서명 모음</h3>'+pt.map(([i,u])=>(A.sig||{})[i]?'<div style="display:inline-block;text-align:center"><img src="'+A.sig[i]+'" width="240"><br>'+esc(u.name)+'</div>':'').join(''))}
 function csv(){const pt=part(),n=cf().nDays||0,cols=[];
  for(let d=1;d<=n;d++)Object.entries((A.days||{})[d]||{}).forEach(([mid,m])=>cols.push([d,mid,m]));
  const rows=[['학번','이름','힌트','추측','소감',...cols.map(([d,,m])=>'Day'+d+' '+(m.req?'필수':'선택')+' '+m.title)]];
