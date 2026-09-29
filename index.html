@@ -2,16 +2,16 @@
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>마니또 🐥</title>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:"Geurimilgi";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimGeurimilgiTTF-R.woff2") format("woff2");font-weight:400;font-display:swap}
 :root{--y:#FFE98A;--y2:#FFF7CF;--p:#FFB8A8;--pk:#FFC9DE;--b:#BDE6FF;--t:#6B4E1E}
 *{box-sizing:border-box}
-body{margin:0;font-family:'Gowun Dodum','Apple SD Gothic Neo',sans-serif;font-size:16px;color:var(--t);min-height:100vh;background:linear-gradient(165deg,#FFFAE0 0%,#FFF3C8 50%,#FFEBE3 100%);background-attachment:fixed}
+body{margin:0;font-family:'Geurimilgi','Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:17px;color:var(--t);min-height:100vh;background:linear-gradient(165deg,#FFFAE0 0%,#FFF3C8 50%,#FFEBE3 100%);background-attachment:fixed}
 #app{max-width:680px;margin:0 auto;padding:14px 14px 80px}#app.adm{max-width:1000px}
 .card{background:#fff;border:3px solid var(--y);border-radius:26px;padding:16px;margin:12px 0;box-shadow:0 5px 0 var(--y)}
 .card:nth-child(3n){border-color:var(--pk);box-shadow:0 5px 0 var(--pk)}
-h1,h2,h3,button,.tag,.ct,.ff,th,.stamp{font-family:Jua,sans-serif;font-weight:400}h1,h2,h3{margin:.3em 0}p{line-height:1.6}
-button,input,select,textarea{font:inherit;color:inherit}button{font-family:Jua,sans-serif}
+h1,h2,h3,b,strong,th{font-weight:400}h1,h2,h3{margin:.3em 0}p{line-height:1.6}
+button,input,select,textarea{font:inherit;color:inherit}
 button{background:var(--y);border:0;border-radius:16px;padding:10px 16px;box-shadow:0 3px 0 #e8c94f;cursor:pointer;margin:3px}
 button:active{transform:translateY(3px);box-shadow:none}
 button.p{background:var(--p);box-shadow:0 3px 0 #e89986}button.g{background:#eee;box-shadow:0 3px 0 #ccc}button.b{background:var(--b);box-shadow:0 3px 0 #92c6e6}
@@ -159,9 +159,17 @@ function pProg(){const c=cf(),ph=c.phase||'ready',pi=P.indexOf(ph);A.nv=navs();c
   let all=0,dn=0;for(let k=1;k<=d;k++)Object.entries((A.days||{})[k]||{}).filter(x=>x[1].req).forEach(([m])=>pt.forEach(([i])=>{all++;if((S2[i]||{})[k+'~'+m])dn++}));
   h+=card('<h3>📅 오늘(Day '+d+') 필수 미션 제출률 '+rate+'%</h3><div class="pg"><i style="width:'+rate+'%"></i></div><p>🔴 미제출: '+(miss.length?miss.map(([i,u])=>esc(u.name)).join(', '):'없음 🎉')+'</p><p>전체 필수 진행률: '+(all?Math.round(dn/all*100):0)+'%</p>')}
  return h+card('<h3>🎭 추측 '+Object.keys(A.guess||{}).length+' / '+pt.length+'명 · 💌 소감 '+Object.keys(A.reflect||{}).length+' / '+pt.length+'명 · 💛 힌트 '+Object.keys(A.hint||{}).length+'명</h3>')}
-function pRoster(){const r=Object.entries(A.roster||{}).sort((a,b)=>a[0].localeCompare(b[0],0,{numeric:1}));
+function pRoster(){const r=Object.entries(A.roster||{}).sort((a,b)=>a[0].localeCompare(b[0],0,{numeric:1})),se=SP.sel=SP.sel||{},ns=r.filter(([i])=>se[i]).length,
+ bt=(l,fn,c)=>'<button class="'+(c||'')+'" onclick="'+fn+'">'+l+'</button>';
  return card('<h3>👥 명단 붙여넣기</h3><p>엑셀에서 "학번 이름" 두 열을 복사해 붙여 넣으세요 (이미 있으면 이름만 갱신)</p><textarea id="paste" rows="4"></textarea><button class="p" onclick="addRoster()">등록</button><hr><p>또는 CSV 파일 업로드 (첫 열 학번, 둘째 열 이름 / 첫 줄이 제목이면 자동으로 건너뛰어요)</p><input type="file" accept=".csv,.txt" onchange="upCsv(this)">')+
- card('<div class="wrap"><table><tr><th>학번</th><th>이름</th><th>PIN</th><th>서약</th><th>제외</th><th></th></tr>'+r.map(([i,u])=>'<tr><td>'+esc(i)+'</td><td>'+esc(u.name)+'</td><td>'+((A.pins||{})[i]?'<span onclick="SP[\''+i+'\']=!SP[\''+i+'\'];arender(1)" style="cursor:pointer">'+(SP[i]?A.pins[i]:'••••')+' 👁</span>':'-')+'</td><td onclick="R(\'roster/'+i+'/pledged\').set('+!u.pledged+')" style="cursor:pointer">'+(u.pledged?'✔':'✖')+'</td><td><input type="checkbox" style="width:auto" '+(u.excluded?'checked':'')+' onchange="R(\'roster/'+i+'/excluded\').set(this.checked)"></td><td><button class="g" onclick="R(\'pins/'+i+'\').remove()">PIN 초기화</button><button class="g" onclick="if(confirm(\'삭제할까요?\'))R(\'roster/'+i+'\').remove()">삭제</button></td></tr>').join('')+'</table></div>')}
+ card('<div>'+bt('☑ 전체 선택','selAll(1)','b')+bt('☐ 전체 해제','selAll(0)','g')+' <b>'+ns+'명 선택됨</b></div><div>'+bt('참여 제외',"bulk('ex')")+bt('참여 포함',"bulk('in')")+bt('서약 처리',"bulk('pl')")+bt('서약 해제',"bulk('un')")+bt('PIN 초기화',"bulk('pin')")+bt('삭제',"bulk('del')",'p')+'</div><div class="wrap"><table><tr><th></th><th>학번</th><th>이름</th><th>PIN</th><th>서약</th><th>참여</th></tr>'+
+ r.map(([i,u])=>'<tr class="'+(se[i]?'sel':'')+'"><td><input type="checkbox" style="width:auto" '+(se[i]?'checked':'')+' onchange="SP.sel[\''+i+'\']=this.checked;arender(1)"></td><td>'+esc(i)+'</td><td>'+esc(u.name)+'</td><td>'+((A.pins||{})[i]?'<span onclick="SP[\''+i+'\']=!SP[\''+i+'\'];arender(1)" style="cursor:pointer">'+(SP[i]?esc(A.pins[i]):'••••')+' 👁</span>':'-')+'</td><td onclick="R(\'roster/'+i+'/pledged\').set('+!u.pledged+')" style="cursor:pointer">'+(u.pledged?'✔':'✖')+'</td><td onclick="R(\'roster/'+i+'/excluded\').set('+!u.excluded+')" style="cursor:pointer">'+(u.excluded?'⛔ 제외':'참여')+'</td></tr>').join('')+'</table></div><small>서약·참여 칸을 누르면 개별로 바꿀 수 있어요. 여러 명은 체크한 뒤 위 버튼을 쓰세요.</small>')}
+function selAll(f){SP.sel={};if(f)Object.keys(A.roster||{}).forEach(i=>SP.sel[i]=true);arender(1)}
+function bulk(k){const ids=Object.keys(SP.sel||{}).filter(i=>SP.sel[i]&&(A.roster||{})[i]);if(!ids.length)return toast('먼저 학생을 선택해 주세요');
+ const L={ex:'참여 제외',in:'참여 포함',pl:'서약 처리',un:'서약 해제',pin:'PIN 초기화',del:'삭제'};
+ if((k=='del'||k=='pin'||k=='un')&&!confirm(ids.length+'명을 '+L[k]+'할까요?'))return;
+ const o={};ids.forEach(i=>{if(k=='ex')o['roster/'+i+'/excluded']=true;if(k=='in')o['roster/'+i+'/excluded']=false;if(k=='pl')o['roster/'+i+'/pledged']=true;if(k=='un')o['roster/'+i+'/pledged']=false;if(k=='pin')o['pins/'+i]=null;if(k=='del'){o['roster/'+i]=null;o['pins/'+i]=null;o['sig/'+i]=null}});
+ db.ref().update(o).then(()=>{if(k=='del')SP.sel={};toast(ids.length+'명 '+L[k]+' 완료')})}
 function regText(t){const u={};let n=0;t.replace(/^\ufeff/,'').split(/\r?\n/).forEach(l=>{const m=l.replace(/"/g,'').trim().split(/[\s,;]+/);if(m.length>=2&&m[0]!='학번'){u['roster/'+m[0]+'/name']=m.slice(1).join(' ');n++}});return[u,n]}
 function addRoster(){const[u,n]=regText(v('paste'));if(!n)return toast('학번과 이름을 확인해 주세요');db.ref().update(u).then(()=>{document.getElementById('paste').value='';toast(n+'명 등록했어요')})}
 function upCsv(e){const f=e.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{let t;try{t=new TextDecoder('utf-8',{fatal:true}).decode(rd.result)}catch(x){t=new TextDecoder('euc-kr').decode(rd.result)}
