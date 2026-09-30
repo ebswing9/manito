@@ -41,7 +41,7 @@ input,select,textarea{width:100%;border:2px solid #FFE38A;border-radius:16px;pad
 .ff,.fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--y)}
 .ff{background:var(--y);font-size:1.4rem}.fb{background:#fff;transform:rotateY(180deg)}
 table{border-collapse:separate;border-spacing:0 8px;width:100%;font-size:.95rem}th{padding:4px 12px;font-size:.85rem;color:#B58A2E}td{padding:12px;background:#FFFBEA;text-align:center}td:first-child{border-radius:16px 0 0 16px}td:last-child{border-radius:0 16px 16px 0}
-.wrap{overflow-x:auto}.bar{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-bottom:6px}.bar span{background:#eee;border-radius:12px;padding:5px 2px;font-size:.8rem;text-align:center}@media(max-width:640px){.bar{grid-template-columns:repeat(3,1fr)}}.nv{display:grid;gap:6px;margin:8px 0}.nv button{margin:0;width:100%}.bar .dn{background:var(--y)}.bar .now{background:var(--p)}
+.wrap{overflow-x:auto}.bar{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-bottom:6px}.bar span{background:#eee;border-radius:12px;padding:5px 2px;font-size:.8rem;text-align:center}@media(max-width:640px){.bar{grid-template-columns:repeat(3,1fr)}}.nv{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0}.nv button{margin:0}.bar .dn{background:var(--y)}.bar .now{background:var(--p)}
 td.red{background:#ffd1d1}tr.sel td{background:var(--b)}.tabs{position:sticky;top:0;background:#FFF8D8ee;padding:8px 0;z-index:5;display:flex;flex-wrap:wrap;gap:6px}.tabs button{margin:0}
 .pg{height:14px;background:#eee;border-radius:10px;overflow:hidden}.pg i{display:block;height:100%;background:var(--p)}
 canvas{width:100%;height:150px;background:#fffdf0;border:3px dashed var(--p);border-radius:16px;touch-action:none}
@@ -69,7 +69,7 @@ h3,.tag,th,.mt,.sn,.from{font-family:var(--md);font-weight:500}
 @keyframes bd{50%{transform:scale(1.18)}}
 .hl{position:relative}.tpop{position:absolute;top:100%;left:0;margin-top:6px;background:#fff;border-radius:14px;padding:6px 12px;font-size:.85rem;box-shadow:0 6px 16px rgba(0,0,0,.15);z-index:20;white-space:nowrap}
 .ovl{position:fixed;inset:0;z-index:50;background:rgba(30,25,50,.5);overflow:auto;padding:30px 10px;backdrop-filter:blur(2px)}
-.ovl .cert{margin:10px auto;max-width:560px;background:rgba(251,244,223,.97)}.ovl>.card{max-width:420px;margin:70px auto}
+.ovl .cert{margin:10px auto;max-width:560px;background:rgba(251,244,223,.97)}#app .ovl>.card{max-width:420px;margin:70px auto}
 .mc{padding:16px 18px}.mh{display:flex;align-items:center;gap:8px;cursor:pointer}.mt{flex:1;font-size:1.05rem}.ms{font-family:var(--md);color:#E58F72;white-space:nowrap}
 .mb{margin-top:12px;border-top:2px dashed #FFE9A0;padding-top:10px}.ex{font-size:.8rem;color:#999;margin:4px 0 8px;white-space:pre-wrap}
 .nt{white-space:pre-wrap;background:#FFFBEA;border-radius:16px;padding:12px}.from{color:#B58A2E;font-size:.9rem;margin-top:6px}
@@ -90,7 +90,7 @@ button:disabled{cursor:default;transform:none;box-shadow:0 4px 0 #e89986}
 .adm .card{padding:28px 28px 26px;margin:34px 0}.adm .card::before{display:none}.adm .card h3{margin:.2em 0 .9em}.adm p{margin:.9em 0}.adm .row{gap:12px;margin:16px 0}
 .adm table{border-spacing:0 10px}.adm td{padding:14px 12px}.adm th{padding:6px 14px}.adm textarea,.adm input,.adm select{margin:8px 0;padding:13px 16px}.adm .nv{gap:12px;margin:18px 0 10px}
 .nv button.p{padding:16px 22px;font-size:1.05rem;border-radius:20px}
-.nv button.g{background:transparent;box-shadow:none;color:#A38A50;width:auto;justify-self:start;padding:6px 10px;text-decoration:underline}
+.nv button.g{background:transparent;box-shadow:none;color:#A38A50;padding:6px 10px;text-decoration:underline}
 .tabs{gap:6px;padding:8px;background:rgba(255,255,255,.78);border-radius:22px;backdrop-filter:blur(6px);box-shadow:0 6px 18px -10px rgba(200,150,40,.5);margin:6px 0 10px}
 .tabs button{background:transparent;box-shadow:none;font-family:var(--md);font-weight:500;font-size:.92rem;color:#9A7A2E;border-radius:14px;padding:9px 16px}
 .tabs button.on{background:rgba(255,226,120,.85);color:#5A4318}
@@ -169,7 +169,7 @@ function homeH(c,u,ph,pi){
  if(ph=='active'){const ms=Object.entries((S.days||{})[d]||{});let h='<h2>Day '+d+' 미션</h2>';
   ms.forEach(([mid,m])=>{const s=(S.subs||{})[d+'~'+mid],op=S.open&&S.open[mid],hn=m.kind=='hint',txt=T[mid]??(s?s.t:''),lkd=s&&S.dlv&&S.dlv[d+'~'+mid];
    h+='<div class="card mc"><div class="mh" onclick="tg(\''+mid+'\')"><span class="tag '+(m.req?'rq':'')+'">'+(hn?'💛 힌트':m.req?'필수':'선택')+'</span><span class="mt">'+esc(m.title)+'</span><span class="ms">'+(s?'✔ 제출 ':'')+(op?'▲':'▼')+'</span></div>'+
-   (op?'<div class="mb"><p>'+esc(m.desc)+'</p>'+(m.ex?'<div class="ex">예시) '+esc(m.ex)+'</div>':'')+'<textarea id="t_'+mid+'" rows="4" maxlength="'+MAXM+'" '+(lkd?'readonly ':'')+'oninput="T[\''+mid+'\']=this.value;cn(this,'+MINM+','+MAXM+')" placeholder="여기에 써 주세요">'+esc(txt)+'</textarea><div class="ex cnt">'+txt.trim().length+'자</div><div class="rt">'+(s?'<span class="stamp">완료!</span>':'')+''+(lkd?'<small>🔒 전달되어 더 이상 수정할 수 없어요</small>':'<button class="p" onclick="sub(\''+d+'\',\''+mid+'\')">'+(s?'다시 제출':'제출하기')+'</button>')+'</div></div>':'')+'</div>'});
+   (op?'<div class="mb"><span class="tag">'+(m.anon?'💌 마니또에게 익명 전달':'👀 선생님만 봐요')+'</span><p>'+esc(m.desc)+'</p>'+(m.ex?'<div class="ex">예시) '+esc(m.ex)+'</div>':'')+'<textarea id="t_'+mid+'" rows="4" maxlength="'+MAXM+'" '+(lkd?'readonly ':'')+'oninput="T[\''+mid+'\']=this.value;cn(this,'+MINM+','+MAXM+')" placeholder="여기에 써 주세요">'+esc(txt)+'</textarea><div class="ex cnt">'+txt.trim().length+'자</div><div class="rt">'+(s?'<span class="stamp">완료!</span>':'')+''+(lkd?'<small>🔒 전달되어 더 이상 수정할 수 없어요</small>':'<button class="p" onclick="sub(\''+d+'\',\''+mid+'\')">'+(s?'다시 제출':'제출하기')+'</button>')+'</div></div>':'')+'</div>'});
   return h+(ms.length?'':card('오늘 미션을 준비 중이에요'))}
  if(ph=='ended'){const o=Object.entries(S.ros).filter(([i,x])=>i!=me&&x.pledged&&!x.excluded).map(([i,x])=>'<option value="'+i+'"'+(S.guess==i?' selected':'')+'>'+esc(x.name)+'</option>').join('');
   return card('<div style="text-align:center">'+CH+'<h2>마니또 활동이 끝났어요! 🎊</h2></div><p>나를 몰래 챙겨준 수호천사는 누구일까요?</p><select id="gs"><option value="">-- 친구 고르기 --</option>'+o+'</select><div class="rt"><button class="p" onclick="guess()">이 친구로 제출!</button></div>'+(S.guess?'<p>✅ 제출 완료! 결과를 기다려요</p>':''))}
@@ -182,7 +182,7 @@ function inboxH(c,pi){const e=vis(c,pi).sort((a,b)=>a.localeCompare(b,0,{numeric
  if(!e.length)return h+card('아직 도착한 편지가 없어요');
  return h+e.map(k=>{const x=S.inbox[k],[d,m]=k.split('~'),ms=(S.days[d]||{})[m]||{},lk=(S.hrtMine||{})[k];
   return card(((S.nw||[]).includes(k)?'<span class="tag rq">NEW</span> ':'')+'<span class="tag">Day '+d+'</span> '+esc(ms.title)+'<p class="nt">'+esc(x)+'</p><div class="rt from">'+(ms.kind=='hint'?'💛 내 수호천사가 남긴 힌트':'from. 비밀 수호천사')+'</div><div class="rt">'+(lk?'<button class="p" disabled>💗</button>':'<button class="g" onclick="heart(\''+k+'\')">🤍</button>')+'</div>')}).join('')}
-const HC=i=>'hsl('+Math.round(i*137.5%360)+',68%,75%)',HB=i=>'hsl('+Math.round(i*137.5%360)+',90%,95%)',
+const HU=[345,15,35,50,90,145,175,200,225,260,290,320],OR=[0,5,10,3,8,1,6,11,4,9,2,7],hu=i=>HU[OR[i%12]],HC=i=>{const h=hu(i),r=i>=12;return h>=30&&h<=60?'hsl('+h+',100%,'+(r?56:63)+'%)':h>60&&h<=110?'hsl('+h+',80%,'+(r?52:62)+'%)':'hsl('+h+',85%,'+(r?64:72)+'%)'},HB=i=>'hsl('+hu(i)+',100%,'+(i<12?95:92)+'%)',
 HS=(f,o)=>'<svg viewBox="0 0 32 29" width="36" height="32"><path d="M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z" fill="'+(o?'none':f)+'"'+(o?' stroke="'+o+'" stroke-width="2" stroke-dasharray="3 3"':'')+'/></svg>';
 function stampH(c){const nd=c.nDays||0;let tot=0,dn=0,n=0,h='';
  for(let d=1;d<=nd;d++){const ms=Object.entries((S.days||{})[d]||{}),lk=d>(c.day||0),k=ms.filter(([m])=>(S.subs||{})[d+'~'+m]).length;tot+=ms.length;dn+=k;
@@ -311,8 +311,7 @@ function pStat(){const pt=part(),g=A.guess||{},as=A.assign||{},hr=A.hearts||{},a
  gs=Object.keys(g),ok=gs.filter(i=>ang[i]&&ang[i]==g[i]),hk=Object.values(hr).reduce((a,o)=>a+Object.keys(o).length,0),
  recv=tally(Object.entries(hr).flatMap(([r2,o])=>Object.keys(o).map(()=>ang[r2]))),gave=Object.entries(hr).map(([r2,o])=>[r2,Object.keys(o).length]).sort((x,y)=>y[1]-x[1]);
  let h=card('<h3>🎭 수호천사로 가장 많이 추측된 친구</h3>'+bars(tally(Object.values(g)),'표'))+
- card('<h3>🎯 추측 정답 현황</h3>'+(gs.length?'<p>제출 '+gs.length+'명 중 <b>'+ok.length+'명</b> 정답 ('+Math.round(ok.length/gs.length*100)+'%)</p><p><span class="tag" style="background:#DDF3D6">정답</span> '+(ok.length?ok.map(i=>esc(nm(i))).join(', '):'없음')+'</p>':'<p>아직 추측이 없어요</p>'))+
- card('<h3>💗 하트</h3><p>주고받은 하트 총 <b>'+hk+'개</b></p><p>하트를 가장 많이 받은 글의 작성자</p>'+bars(recv,'개')+'<p>하트를 가장 많이 누른 친구</p>'+bars(gave,'개'));
+ card('<h3>🎯 추측 정답 현황</h3>'+(gs.length?'<p>제출 '+gs.length+'명 중 <b>'+ok.length+'명</b> 정답 ('+Math.round(ok.length/gs.length*100)+'%)</p><p><span class="tag" style="background:#DDF3D6">정답</span> '+(ok.length?ok.map(i=>esc(nm(i))).join(', '):'없음')+'</p>':'<p>아직 추측이 없어요</p>'));
  const rows=[];for(let d=1;d<=(cf().nDays||0);d++)Object.entries((A.days||{})[d]||{}).forEach(([mid,m])=>{const n=pt.filter(([i])=>((A.sub||{})[i]||{})[d+'~'+mid]).length;rows.push('<div class="rk"><span class="rn">D'+d+' '+esc(m.title)+'</span><span class="rb"><i style="width:'+(pt.length?Math.round(n/pt.length*100):0)+'%"></i></span><span class="rc">'+n+'/'+pt.length+'</span></div>')});
  return h+card('<h3>📝 미션별 제출률</h3>'+(rows.join('')||'<p>미션이 없어요</p>'))}
 function deliv(k,on){if(!confirm(on?'이 미션의 제출물을 마니또들에게 전달할까요?\n(전달 후 새로 제출하는 글은 바로 도착해요)':'전달을 취소할까요? 학생들의 우편함에서 다시 사라져요.'))return;R('deliver/'+k).set(on?Date.now():null)}
