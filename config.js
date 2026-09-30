@@ -10,3 +10,9 @@ const FB = {
 
 // 관리자 비밀번호
 const ADMIN_PW = "sugar";
+
+// 글자 수 제한
+const MIN_MISSION = 10;    // 미션 최소 글자 수
+const MAX_MISSION = 500;   // 미션 최대 글자 수
+const MIN_REFL = 30;       // 소감 최소 글자 수
+const MAX_REFL = 1500;     // 소감 최대 글자 수
