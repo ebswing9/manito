@@ -85,6 +85,19 @@ button:disabled{cursor:default;transform:none;box-shadow:0 4px 0 #e89986}
 .cert .warn,.cert h1{text-wrap:balance}
 @media(max-width:480px){#app{padding:12px 10px 80px}.card{padding:22px 16px 18px}.cert{padding:24px 14px 30px;margin:26px 10px;outline-offset:4px}.cert h1{font-size:1.7rem}.cert .body{font-size:1.02rem;padding:14px 4px;line-height:1.9}.cert .warn{font-size:.92rem}.seal{width:72px;height:72px;font-size:1rem}}
 .cnt{text-align:right;margin:0 0 4px}
+#app.adm{--p:#FFD9CB}
+.adm button.p{box-shadow:0 4px 0 #F3BFAE}.adm .tag.rq{background:#FFDCCF}.adm .bar .now{background:#FFD9CB}.adm .pg i{background:#FFCDB9}
+.adm .card{padding:28px 28px 26px;margin:34px 0}.adm .card::before{display:none}.adm .card h3{margin:.2em 0 .9em}.adm p{margin:.9em 0}.adm .row{gap:12px;margin:16px 0}
+.adm table{border-spacing:0 10px}.adm td{padding:14px 12px}.adm th{padding:6px 14px}.adm textarea,.adm input,.adm select{margin:8px 0;padding:13px 16px}.adm .nv{gap:12px;margin:18px 0 10px}
+.nv button.p{padding:16px 22px;font-size:1.05rem;border-radius:20px}
+.nv button.g{background:transparent;box-shadow:none;color:#A38A50;width:auto;justify-self:start;padding:6px 10px;text-decoration:underline}
+.tabs{gap:6px;padding:8px;background:rgba(255,255,255,.78);border-radius:22px;backdrop-filter:blur(6px);box-shadow:0 6px 18px -10px rgba(200,150,40,.5);margin:6px 0 10px}
+.tabs button{background:transparent;box-shadow:none;font-family:var(--md);font-weight:500;font-size:.92rem;color:#9A7A2E;border-radius:14px;padding:9px 16px}
+.tabs button.on{background:rgba(255,226,120,.85);color:#5A4318}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+button.stat{display:block;text-align:left;background:#FFFBEA;border-radius:20px;padding:16px 18px;box-shadow:inset 0 0 0 2px #FFF0BD;margin:0;width:100%}
+button.stat:active{transform:none}.stat .sl{display:block;font-family:var(--md);font-size:.9rem;color:#9A7A2E}.stat .sv{display:block;font-family:var(--hd);font-size:1.6rem;margin:6px 0 10px}.stat .sv small{font-size:.9rem;color:#B9A26A}
+.rk{display:grid;grid-template-columns:110px 1fr 48px;gap:12px;align-items:center;margin:10px 0}.rn{font-family:var(--md);font-size:.9rem}.rb{background:#FFF1C9;border-radius:10px;height:14px;overflow:hidden}.rb i{display:block;height:100%;background:#F7CF6B;border-radius:10px}.rc{font-size:.85rem;text-align:right}
 @media print{button,.tabs{display:none}}
 </style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -107,7 +120,7 @@ window.onhashchange=()=>location.reload();
 /* ================= 학생 ================= */
 let S={},T={},me=localStorage.mid||null;
 const MINM=typeof MIN_MISSION!='undefined'?MIN_MISSION:10,MAXM=typeof MAX_MISSION!='undefined'?MAX_MISSION:300,MINR=typeof MIN_REFL!='undefined'?MIN_REFL:30,MAXR=typeof MAX_REFL!='undefined'?MAX_REFL:1000,
-cn=(e,a,b)=>{e.nextElementSibling.textContent=e.value.trim().length+' / 최소 '+a+'자 (최대 '+b+'자)'};
+cn=(e,a,b)=>{e.nextElementSibling.textContent=e.value.trim().length+'자'};
 function watch(k,p){R(p).on('value',s=>{S[k]=s.val()??(k=='cfg'?{}:null);render()},e=>ui(card('⚠️ 데이터베이스에 연결하지 못했어요<br><small>'+esc(e.message)+'</small><br>Firebase 규칙이 열려 있는지 확인해 주세요.')))}
 function sInit(){watch('dlv','deliver');watch('cfg','config');watch('days','days');watch('ros','roster');if(me)bind();render()}
 function bind(){['tgt:assign/','subs:sub/','inbox:inbox/','guess:guess/','refl:reflect/','sig:sig/','hrtMine:hearts/','unl:unlock/'].forEach(x=>{const[k,p]=x.split(':');watch(k,p+me)})}
@@ -156,24 +169,24 @@ function homeH(c,u,ph,pi){
  if(ph=='active'){const ms=Object.entries((S.days||{})[d]||{});let h='<h2>Day '+d+' 미션</h2>';
   ms.forEach(([mid,m])=>{const s=(S.subs||{})[d+'~'+mid],op=S.open&&S.open[mid],hn=m.kind=='hint',txt=T[mid]??(s?s.t:''),lkd=s&&S.dlv&&S.dlv[d+'~'+mid];
    h+='<div class="card mc"><div class="mh" onclick="tg(\''+mid+'\')"><span class="tag '+(m.req?'rq':'')+'">'+(hn?'💛 힌트':m.req?'필수':'선택')+'</span><span class="mt">'+esc(m.title)+'</span><span class="ms">'+(s?'✔ 제출 ':'')+(op?'▲':'▼')+'</span></div>'+
-   (op?'<div class="mb"><span class="tag">'+(m.anon?'💌 마니또에게 익명 전달 (선생님이 전달하면 도착)':'👀 선생님만 봐요')+'</span><p>'+esc(m.desc)+'</p>'+(m.ex?'<div class="ex">예시) '+esc(m.ex)+'</div>':'')+'<textarea id="t_'+mid+'" rows="4" maxlength="'+MAXM+'" '+(lkd?'readonly ':'')+'oninput="T[\''+mid+'\']=this.value;cn(this,'+MINM+','+MAXM+')" placeholder="여기에 써 주세요">'+esc(txt)+'</textarea><div class="ex cnt">'+txt.trim().length+' / 최소 '+MINM+'자 (최대 '+MAXM+'자)</div><div class="rt">'+(s?'<span class="stamp">완료!</span>':'')+''+(lkd?'<small>🔒 전달되어 더 이상 수정할 수 없어요</small>':'<button class="p" onclick="sub(\''+d+'\',\''+mid+'\')">'+(s?'다시 제출':'제출하기')+'</button>')+'</div></div>':'')+'</div>'});
+   (op?'<div class="mb"><p>'+esc(m.desc)+'</p>'+(m.ex?'<div class="ex">예시) '+esc(m.ex)+'</div>':'')+'<textarea id="t_'+mid+'" rows="4" maxlength="'+MAXM+'" '+(lkd?'readonly ':'')+'oninput="T[\''+mid+'\']=this.value;cn(this,'+MINM+','+MAXM+')" placeholder="여기에 써 주세요">'+esc(txt)+'</textarea><div class="ex cnt">'+txt.trim().length+'자</div><div class="rt">'+(s?'<span class="stamp">완료!</span>':'')+''+(lkd?'<small>🔒 전달되어 더 이상 수정할 수 없어요</small>':'<button class="p" onclick="sub(\''+d+'\',\''+mid+'\')">'+(s?'다시 제출':'제출하기')+'</button>')+'</div></div>':'')+'</div>'});
   return h+(ms.length?'':card('오늘 미션을 준비 중이에요'))}
  if(ph=='ended'){const o=Object.entries(S.ros).filter(([i,x])=>i!=me&&x.pledged&&!x.excluded).map(([i,x])=>'<option value="'+i+'"'+(S.guess==i?' selected':'')+'>'+esc(x.name)+'</option>').join('');
   return card('<div style="text-align:center">'+CH+'<h2>마니또 활동이 끝났어요! 🎊</h2></div><p>나를 몰래 챙겨준 수호천사는 누구일까요?</p><select id="gs"><option value="">-- 친구 고르기 --</option>'+o+'</select><div class="rt"><button class="p" onclick="guess()">이 친구로 제출!</button></div>'+(S.guess?'<p>✅ 제출 완료! 결과를 기다려요</p>':''))}
  const mn=S.mani?esc((S.ros[S.mani]||{}).name):'?';
  if(ph=='revealed')return card('<p style="text-align:center">카드를 눌러 보세요 👆</p><div class="flip '+(localStorage[K('fl')]?'on':'')+'" onclick="this.classList.add(\'on\');localStorage[K(\'fl\')]=1;R(\'flip/\'+me).set(Date.now());spark(30)"><div class="fi"><div class="ff">🎭 나의 수호천사는?</div><div class="fb"><small>나를 챙겨준 수호천사</small><h1>'+mn+'</h1></div></div></div>');
  if(ph=='reflect'){if(S.refl&&!S.unl)return W('<h2>소감 제출 완료! 💌</h2><p>소중한 이야기 고마워요<br><small>다른 친구들을 기다려 주세요</small></p>');
-  const t0=T.rf??(S.refl||'');return card('<h2>💌 소감을 남겨 주세요</h2><p>마니또 활동은 어땠나요?</p><textarea id="rf" rows="6" maxlength="'+MAXR+'" oninput="T.rf=this.value;cn(this,'+MINR+','+MAXR+')">'+esc(t0)+'</textarea><div class="ex cnt">'+t0.trim().length+' / 최소 '+MINR+'자 (최대 '+MAXR+'자)</div><div class="rt"><button class="p" onclick="refl()">제출하기</button></div>'+(S.refl?'<p><small>선생님이 수정을 열어 주셨어요. 다시 제출하면 이전 글이 바뀌어요</small></p>':''))}
+  const t0=T.rf??(S.refl||'');return card('<h2>💌 소감을 남겨 주세요</h2><p>마니또 활동은 어땠나요?</p><textarea id="rf" rows="6" maxlength="'+MAXR+'" oninput="T.rf=this.value;cn(this,'+MINR+','+MAXR+')">'+esc(t0)+'</textarea><div class="ex cnt">'+t0.trim().length+'자</div><div class="rt"><button class="p" onclick="refl()">제출하기</button></div>'+(S.refl?'<p><small>선생님이 수정을 열어 주셨어요. 다시 제출하면 이전 글이 바뀌어요</small></p>':''))}
  return W('<h2>모든 활동이 끝났어요 🎉</h2><p>함께해 줘서 고마워요 💛</p>')}
 function inboxH(c,pi){const e=vis(c,pi).sort((a,b)=>a.localeCompare(b,0,{numeric:1})),h='<h2>💌 우편함</h2>';
- if(!e.length)return h+card('아직 도착한 편지가 없어요<br><small>마니또가 보낸 글은 선생님이 전달해 주면 도착해요</small>');
+ if(!e.length)return h+card('아직 도착한 편지가 없어요');
  return h+e.map(k=>{const x=S.inbox[k],[d,m]=k.split('~'),ms=(S.days[d]||{})[m]||{},lk=(S.hrtMine||{})[k];
   return card(((S.nw||[]).includes(k)?'<span class="tag rq">NEW</span> ':'')+'<span class="tag">Day '+d+'</span> '+esc(ms.title)+'<p class="nt">'+esc(x)+'</p><div class="rt from">'+(ms.kind=='hint'?'💛 내 수호천사가 남긴 힌트':'from. 비밀 수호천사')+'</div><div class="rt">'+(lk?'<button class="p" disabled>💗</button>':'<button class="g" onclick="heart(\''+k+'\')">🤍</button>')+'</div>')}).join('')}
-const HC=['#F2A0B3','#F5C160','#88C4E8','#9BD3A7','#B7A6E6','#F3A98C'],HB=['#FFEAF0','#FFF4D6','#E6F3FC','#E7F7EA','#F0EBFB','#FFEBE2'],
+const HC=i=>'hsl('+Math.round(i*137.5%360)+',68%,75%)',HB=i=>'hsl('+Math.round(i*137.5%360)+',90%,95%)',
 HS=(f,o)=>'<svg viewBox="0 0 32 29" width="36" height="32"><path d="M16 28C16 28 1 18 1 9.5 1 4.5 5 1 9.5 1 12.5 1 15 2.8 16 5 17 2.8 19.5 1 22.5 1 27 1 31 4.5 31 9.5 31 18 16 28 16 28Z" fill="'+(o?'none':f)+'"'+(o?' stroke="'+o+'" stroke-width="2" stroke-dasharray="3 3"':'')+'/></svg>';
 function stampH(c){const nd=c.nDays||0;let tot=0,dn=0,n=0,h='';
  for(let d=1;d<=nd;d++){const ms=Object.entries((S.days||{})[d]||{}),lk=d>(c.day||0),k=ms.filter(([m])=>(S.subs||{})[d+'~'+m]).length;tot+=ms.length;dn+=k;
-  h+='<div class="sc'+(d%2?'':' b')+(lk?' lk':'')+'"><div class="sh"><span>DAY '+d+(lk?' 🔒':'')+'</span><span>'+k+' / '+ms.length+(ms.length&&k==ms.length?' 🎉':'')+'</span></div><div class="slots">'+ms.map(([mid,m])=>{const s=(S.subs||{})[d+'~'+mid],i=n++;return '<div class="slot">'+(s?'<div class="sp2" style="background:'+HB[i%6]+';transform:rotate('+((i*37%17)-8)+'deg)">'+HS(HC[i%6])+'</div>':'<div class="sp0">'+HS('','#E8D3A8')+'</div>')+'<div class="sn">'+(lk?'? ? ?':(m.req?'⭐ ':'')+esc(m.title))+'</div></div>'}).join('')+(ms.length?'':'<small>미션 준비 중</small>')+'</div></div>'}
+  h+='<div class="sc'+(d%2?'':' b')+(lk?' lk':'')+'"><div class="sh"><span>DAY '+d+(lk?' 🔒':'')+'</span><span>'+k+' / '+ms.length+(ms.length&&k==ms.length?' 🎉':'')+'</span></div><div class="slots">'+ms.map(([mid,m])=>{const s=(S.subs||{})[d+'~'+mid],i=n++;return '<div class="slot">'+(s?'<div class="sp2" style="background:'+HB(i)+';transform:rotate('+((i*37%17)-8)+'deg)">'+HS(HC(i))+'</div>':'<div class="sp0">'+HS('','#E8D3A8')+'</div>')+'<div class="sn">'+(lk?'? ? ?':(m.req?'⭐ ':'')+esc(m.title))+'</div></div>'}).join('')+(ms.length?'':'<small>미션 준비 중</small>')+'</div></div>'}
  return card('<h2>나의 스탬프</h2><div class="pg"><i style="width:'+(tot?Math.round(dn/tot*100):0)+'%"></i></div><p>모은 스탬프 <b>'+dn+'</b> / '+tot+'</p>')+h}
 function newH(){const sn=JSON.parse(localStorage[K('hs')]||'[]');return Object.keys(S.hrtIn||{}).filter(k=>(S.subs||{})[k]&&!sn.includes(k))}
 function seenH(){const sn=JSON.parse(localStorage[K('hs')]||'[]');localStorage[K('hs')]=JSON.stringify([...sn,...newH()]);render()}
@@ -211,8 +224,8 @@ function aInit(){
  $('#app').classList.add('adm');db.ref().on('value',s=>{A=s.val()||{};arender()})}
 const cf=()=>A.config||{},part=()=>Object.entries(A.roster||{}).filter(([i,u])=>u.pledged&&!u.excluded),nm=i=>((A.roster||{})[i]||{}).name||i;
 function arender(f){const a=document.activeElement;if(!f&&a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;
- const T2=[['prog','📊 진행'],['roster','👥 명단'],['pledge','📜 서약서'],['draw','🎲 추첨'],['mission','📝 미션'],['sub','✅ 제출현황'],['res','🎭 결과·내보내기']];
- ui('<div class="tabs">'+T2.map(([k,l])=>'<button class="'+(k==atab?'p':'')+'" onclick="atab=\''+k+'\';arender(1)">'+l+'</button>').join('')+'</div>'+({prog:pProg,roster:pRoster,pledge:pPledge,draw:pDraw,mission:pMission,sub:pSub,res:pRes}[atab])()+popA())}
+ const T2=[['prog','📊 진행'],['roster','👥 명단'],['pledge','📜 서약서'],['draw','🎲 추첨'],['mission','📝 미션'],['sub','✅ 제출현황'],['stat','📈 통계'],['res','🎭 결과·내보내기']];
+ ui('<div class="tabs">'+T2.map(([k,l])=>'<button class="'+(k==atab?'on':'')+'" onclick="atab=\''+k+'\';arender(1)">'+l+'</button>').join('')+'</div>'+({prog:pProg,roster:pRoster,pledge:pPledge,draw:pDraw,mission:pMission,sub:pSub,stat:pStat,res:pRes}[atab])()+popA())}
 function navs(){const c=cf(),ph=c.phase||'ready',d=c.day||0,nd=c.nDays||0,F=(l,p,fn)=>({l,p,fn}),B=(l,p)=>({l,p,b:1});
  return({ready:[F('🚪 학생 입장 열기 (서약 시작)',{phase:'pledge'})],
  pledge:[F('🎲 서약 마감하고 추첨하러 가기',{phase:'draft'}),B('← 준비 단계로',{phase:'ready'})],
@@ -231,12 +244,12 @@ function pProg(){const c=cf(),ph=c.phase||'ready',pi=P.indexOf(ph);A.nv=navs();c
  if(pi>=4&&pi<6){const d=c.day,ms=Object.entries((A.days||{})[d]||{}),rq=ms.filter(x=>x[1].req),S2=A.sub||{},
   miss=pt.filter(([i])=>rq.some(([m])=>!(S2[i]||{})[d+'~'+m])),rate=pt.length?Math.round((pt.length-miss.length)/pt.length*100):0;
   let all=0,dn=0;for(let k=1;k<=d;k++)Object.entries((A.days||{})[k]||{}).filter(x=>x[1].req).forEach(([m])=>pt.forEach(([i])=>{all++;if((S2[i]||{})[k+'~'+m])dn++}));
-  h+=card('<h3>📅 오늘(Day '+d+') 필수 미션 제출률 '+rate+'%</h3><div class="pg"><i style="width:'+rate+'%"></i></div><p>🔴 미제출: '+(miss.length?miss.map(([i,u])=>esc(u.name)).join(', '):'없음 🎉')+'</p><p>전체 필수 진행률: '+(all?Math.round(dn/all*100):0)+'%</p>')}
- const rs=Object.entries(A.roster||{}).filter(([i,u])=>!u.excluded),bx=(k,l,L,f)=>'<button class="b" onclick="SP.pop=\''+k+'\';arender(1)">'+l+' '+L.filter(f).length+' / '+L.length+'</button>';
- return h+card('<h3>📋 제출 현황 <small>(눌러서 명단 보기)</small></h3><div class="row">'+bx('pl','📜 서약',rs,([i,u])=>u.pledged)+bx('guess','🎭 수호천사 추측',pt,([i])=>(A.guess||{})[i])+bx('flip','👀 정체 확인',pt,([i])=>(A.flip||{})[i])+bx('refl','💌 소감',pt,([i])=>(A.reflect||{})[i])+'</div>')}
+  h+=card('<h3>📅 오늘(Day '+d+') 필수 미션 제출률 '+rate+'%</h3><div class="pg"><i style="width:'+rate+'%"></i></div><p><span class="tag rq">미제출</span> '+(miss.length?miss.map(([i,u])=>esc(u.name)).join(', '):'없음 🎉')+'</p><p>전체 필수 진행률: '+(all?Math.round(dn/all*100):0)+'%</p>')}
+ const rs=Object.entries(A.roster||{}).filter(([i,u])=>!u.excluded),bx=(k,l,L,f)=>{const n=L.filter(f).length,p=L.length?Math.round(n/L.length*100):0;return '<button class="stat" onclick="SP.pop=\''+k+'\';arender(1)"><span class="sl">'+l+'</span><span class="sv">'+n+'<small> / '+L.length+'</small></span><div class="pg"><i style="width:'+p+'%"></i></div></button>'};
+ return h+card('<h3>📋 제출 현황 <small>(눌러서 명단 보기)</small></h3><div class="stats">'+bx('pl','📜 서약',rs,([i,u])=>u.pledged)+bx('guess','🎭 수호천사 추측',pt,([i])=>(A.guess||{})[i])+bx('flip','👀 정체 확인',pt,([i])=>(A.flip||{})[i])+bx('refl','💌 소감',pt,([i])=>(A.reflect||{})[i])+'</div>')}
 function popA(){const k=SP.pop;if(!k)return'';const pt=part(),M={pl:['📜 서약',Object.entries(A.roster||{}).filter(([i,u])=>!u.excluded),([i,u])=>u.pledged],guess:['🎭 수호천사 추측',pt,([i])=>(A.guess||{})[i]],flip:['👀 정체 확인',pt,([i])=>(A.flip||{})[i]],refl:['💌 소감',pt,([i])=>(A.reflect||{})[i]]}[k],
  ok=M[1].filter(M[2]),no=M[1].filter(x=>!M[2](x)),n2=x=>esc(x[1].name);
- return '<div class="ovl" onclick="if(event.target==this){SP.pop=0;arender(1)}"><div class="card"><h3>'+M[0]+' '+ok.length+' / '+M[1].length+'</h3><p>🔴 아직 ('+no.length+'): '+(no.length?no.map(n2).join(', '):'없음 🎉')+'</p><p>✅ 완료 ('+ok.length+'): '+(ok.length?ok.map(n2).join(', '):'-')+'</p><div class="rt"><button class="g" onclick="SP.pop=0;arender(1)">닫기</button></div></div></div>'}
+ return '<div class="ovl" onclick="if(event.target==this){SP.pop=0;arender(1)}"><div class="card"><h3>'+M[0]+' '+ok.length+' / '+M[1].length+'</h3><p><span class="tag rq">아직 '+no.length+'</span> '+(no.length?no.map(n2).join(', '):'없음')+'</p><p><span class="tag" style="background:#DDF3D6">완료 '+ok.length+'</span> '+(ok.length?ok.map(n2).join(', '):'-')+'</p><div class="rt"><button class="g" onclick="SP.pop=0;arender(1)">닫기</button></div></div></div>'}
 function pRoster(){const r=Object.entries(A.roster||{}).sort((a,b)=>a[0].localeCompare(b[0],0,{numeric:1})),se=SP.sel=SP.sel||{},ns=r.filter(([i])=>se[i]).length,
  bt=(l,fn,c)=>'<button class="'+(c||'')+'" onclick="'+fn+'">'+l+'</button>';
  return card('<h3>👥 명단 붙여넣기</h3><p>엑셀에서 "학번 이름" 두 열을 복사해 붙여 넣으세요 (이미 있으면 이름만 갱신)</p><textarea id="paste" rows="4"></textarea><button class="p" onclick="addRoster()">등록</button><hr><p>또는 CSV 파일 업로드 (첫 열 학번, 둘째 열 이름 / 첫 줄이 제목이면 자동으로 건너뛰어요)</p><input type="file" accept=".csv,.txt" onchange="upCsv(this)">')+
@@ -291,7 +304,17 @@ function pSub(){const c=cf(),n=c.nDays||0,d=SP.sd||c.day||1,ms=Object.entries((A
 function pRes(){const pt=part();
  return card('<button class="p" onclick="csv()">📥 CSV 내보내기 (제출물·힌트·추측·소감)</button><button onclick="window.print()">🖨 인쇄</button><button class="g" onclick="resetAll()">🧹 테스트 초기화</button>')+
  card('<div class="wrap"><table><tr><th>이름</th><th>추측</th><th>소감</th><th></th></tr>'+pt.map(([i,u])=>{const g=(A.guess||{})[i];return'<tr><td>'+esc(u.name)+'</td><td>'+(g?esc(nm(g)):'-')+'</td><td style="text-align:left">'+esc((A.reflect||{})[i])+'</td><td>'+((A.reflect||{})[i]?((A.unlock||{})[i]?'<button class="g" onclick="R(\'unlock/'+i+'\').remove()">허용 취소</button>':'<button class="b" onclick="R(\'unlock/'+i+'\').set(true)">수정 허용</button>'):'')+'</td></tr>'}).join('')+'</table></div>')+
- card('<h3>✍️ 서명 모음</h3>'+pt.map(([i,u])=>(A.sig||{})[i]?'<div style="display:inline-block;text-align:center"><img src="'+A.sig[i]+'" width="240"><br>'+esc(u.name)+'</div>':'').join(''))}
+ card('<div class="row"><h3 style="margin:0">✍️ 서명 모음</h3><button class="g" onclick="SP.so=!SP.so;arender(1)">'+(SP.so?'접기 ▲':'펼치기 ▼')+'</button></div>'+(!SP.so?'':pt.map(([i,u])=>(A.sig||{})[i]?'<div style="display:inline-block;text-align:center"><img src="'+A.sig[i]+'" width="240"><br>'+esc(u.name)+'</div>':'').join('')))}
+function pStat(){const pt=part(),g=A.guess||{},as=A.assign||{},hr=A.hearts||{},ang={};Object.keys(as).forEach(w=>ang[as[w]]=w);
+ const tally=a=>{const c={};a.forEach(x=>{if(x!=null)c[x]=(c[x]||0)+1});return Object.entries(c).sort((x,y)=>y[1]-x[1])},
+ bars=(L,u)=>{if(!L.length)return'<p>아직 데이터가 없어요</p>';const m=L[0][1];return L.slice(0,10).map(([i,n])=>'<div class="rk"><span class="rn">'+esc(nm(i))+'</span><span class="rb"><i style="width:'+Math.round(n/m*100)+'%"></i></span><span class="rc">'+n+u+'</span></div>').join('')},
+ gs=Object.keys(g),ok=gs.filter(i=>ang[i]&&ang[i]==g[i]),hk=Object.values(hr).reduce((a,o)=>a+Object.keys(o).length,0),
+ recv=tally(Object.entries(hr).flatMap(([r2,o])=>Object.keys(o).map(()=>ang[r2]))),gave=Object.entries(hr).map(([r2,o])=>[r2,Object.keys(o).length]).sort((x,y)=>y[1]-x[1]);
+ let h=card('<h3>🎭 수호천사로 가장 많이 추측된 친구</h3>'+bars(tally(Object.values(g)),'표'))+
+ card('<h3>🎯 추측 정답 현황</h3>'+(gs.length?'<p>제출 '+gs.length+'명 중 <b>'+ok.length+'명</b> 정답 ('+Math.round(ok.length/gs.length*100)+'%)</p><p><span class="tag" style="background:#DDF3D6">정답</span> '+(ok.length?ok.map(i=>esc(nm(i))).join(', '):'없음')+'</p>':'<p>아직 추측이 없어요</p>'))+
+ card('<h3>💗 하트</h3><p>주고받은 하트 총 <b>'+hk+'개</b></p><p>하트를 가장 많이 받은 글의 작성자</p>'+bars(recv,'개')+'<p>하트를 가장 많이 누른 친구</p>'+bars(gave,'개'));
+ const rows=[];for(let d=1;d<=(cf().nDays||0);d++)Object.entries((A.days||{})[d]||{}).forEach(([mid,m])=>{const n=pt.filter(([i])=>((A.sub||{})[i]||{})[d+'~'+mid]).length;rows.push('<div class="rk"><span class="rn">D'+d+' '+esc(m.title)+'</span><span class="rb"><i style="width:'+(pt.length?Math.round(n/pt.length*100):0)+'%"></i></span><span class="rc">'+n+'/'+pt.length+'</span></div>')});
+ return h+card('<h3>📝 미션별 제출률</h3>'+(rows.join('')||'<p>미션이 없어요</p>'))}
 function deliv(k,on){if(!confirm(on?'이 미션의 제출물을 마니또들에게 전달할까요?\n(전달 후 새로 제출하는 글은 바로 도착해요)':'전달을 취소할까요? 학생들의 우편함에서 다시 사라져요.'))return;R('deliver/'+k).set(on?Date.now():null)}
 function csv(){const pt=part(),n=cf().nDays||0,cols=[];
  for(let d=1;d<=n;d++)Object.entries((A.days||{})[d]||{}).forEach(([mid,m])=>cols.push([d,mid,m]));
