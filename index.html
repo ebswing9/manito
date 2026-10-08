@@ -290,9 +290,26 @@ function chk(dr){const ids=part().map(x=>x[0]),ks=Object.keys(dr||{});
  let x=ks[0],n=0;do{x=dr[x];n++}while(x!=ks[0]&&n<=ks.length);
  return n==ks.length?'':'⚠️ 하나의 고리가 아니에요 (서로가 서로의 마니또인 경우 등)'}
 function draw(){const ids=part().map(x=>x[0]);if(ids.length<2)return alert('서약한 학생이 2명 이상 필요해요');
- if(A.draft&&!confirm('기존 초안을 지우고 다시 추첨할까요?'))return;
+ if(A.draft&&!drIsSaved(A.draft)&&!confirm('저장하지 않은 현재 초안은 사라져요. 그래도 다시 추첨할까요?\n(남기려면 취소하고 "💾 현재 초안 저장"을 먼저 눌러 주세요)'))return;
  for(let i=ids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}
  const o={};ids.forEach((x,i)=>o[x]=ids[(i+1)%ids.length]);SEL=[];R('draft').set(o)}
+const dsig=d=>Object.keys(d||{}).sort().map(k=>k+'>'+d[k]).join(','),
+drSaved=()=>Object.entries(A.drafts||{}).sort((a,b)=>(a[1].ts||0)-(b[1].ts||0)),
+drIsSaved=d=>!!d&&drSaved().some(([k,v])=>dsig(v.map)==dsig(d));
+function saveDraft(){const d=A.draft;if(!d)return alert('저장할 초안이 없어요. 먼저 추첨해 주세요');if(drIsSaved(d))return alert('이미 같은 내용의 초안이 저장돼 있어요');
+ const n=drSaved().length+1,s=prompt('저장할 초안 이름을 입력하세요','초안 '+n);if(s===null)return;
+ R('drafts').push({name:s.trim()||'초안 '+n,ts:Date.now(),map:d}).then(()=>toast('저장했어요'))}
+function loadDraft(k){const v=(A.drafts||{})[k];if(!v)return;
+ if(A.draft&&!drIsSaved(A.draft)&&!confirm('현재 작업 중인 초안은 저장되지 않았어요. 불러오면 사라져요.\n계속할까요?'))return;
+ SEL=[];R('draft').set(v.map).then(()=>toast('「'+v.name+'」을 불러왔어요'))}
+function overDraft(k){const v=(A.drafts||{})[k];if(!v||!A.draft)return;if(!confirm('「'+v.name+'」을 현재 초안 내용으로 덮어쓸까요?'))return;R('drafts/'+k).update({map:A.draft,ts:Date.now()}).then(()=>toast('덮어썼어요'))}
+function renDraft(k){const v=(A.drafts||{})[k];if(!v)return;const s=prompt('새 이름',v.name);if(s===null||!s.trim())return;R('drafts/'+k+'/name').set(s.trim())}
+function delDraft(k){const v=(A.drafts||{})[k];if(!v||!confirm('「'+v.name+'」을 삭제할까요?'))return;R('drafts/'+k).remove()}
+function drList(){const L=drSaved();
+ return card('<h3>💾 저장된 초안 ('+L.length+')</h3><p><small>마음에 드는 초안을 저장해 두고, 다른 추첨을 해 본 뒤 골라서 불러올 수 있어요. 확정은 불러온 초안으로 해요.</small></p><button class="b" onclick="saveDraft()">💾 현재 초안 저장</button>'
+ +(L.length?L.map(([k,v])=>{const e=chk(v.map),cur=dsig(v.map)==dsig(A.draft);
+  return '<div style="border:2px solid '+(cur?'#FFD24A':'#FFF1BF')+';border-radius:14px;padding:10px 12px;margin:8px 0"><b>'+esc(v.name)+'</b> '+(cur?'<span class="tag">✔ 현재 초안</span>':'')+' <small>'+new Date(v.ts||0).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+' · '+Object.keys(v.map||{}).length+'명</small><br><small>'+(e||'✅ 정상')+'</small><br>'
+  +(cur?'':'<button class="p" onclick="loadDraft(\''+k+'\')">불러오기</button>')+(A.draft&&!cur?'<button class="g" onclick="overDraft(\''+k+'\')">현재 초안으로 덮어쓰기</button>':'')+'<button class="g" onclick="renDraft(\''+k+'\')">이름 변경</button><button class="g" onclick="delDraft(\''+k+'\')">삭제</button></div>'}).join(''):'<p><small>아직 저장된 초안이 없어요.</small></p>'))}
 function selRow(i){SEL=SEL.includes(i)?SEL.filter(x=>x!=i):[...SEL,i].slice(-2);arender(1)}
 function swap(){const[a,b]=SEL,d=A.draft,s=x=>x==a?b:x==b?a:x,o={};Object.keys(d).forEach(y=>o[y]=s(d[s(y)]));R('draft').set(o);SEL=[]}
 function confirmAssign(){if(!A.draft)return alert('먼저 추첨하세요');const e=chk(A.draft);if(e&&!confirm(e+'\n그래도 확정할까요?'))return;R('assign').set(A.draft).then(()=>R('config/phase').set('assigned'))}
@@ -302,13 +319,13 @@ function drTable(dr){
  if((SP.dv||'ring')=='id')return '<div class="wrap"><table><tr><th>학생</th><th>→</th><th>이 학생이 챙길 마니또</th></tr>'+Object.entries(dr).map(([a,b])=>drRow(a,b,0)).join('')+'</table></div>';
  const seen=new Set(),cy=[];
  Object.keys(dr).forEach(k=>{if(seen.has(k))return;const c=[];let x=k;while(x in dr&&!seen.has(x)){seen.add(x);c.push(x);x=dr[x]}cy.push(c)});
- return '<p><small>순서대로 앞 학생이 바로 다음 학생을 챙겨요. 마지막 학생은 맨 처음 학생을 챙겨요.</small></p>'+cy.map((c,ci)=>(cy.length>1?'<p><b>고리 '+(ci+1)+' ('+c.length+'명)</b></p>':'')+'<div class="wrap"><table><tr><th>순서</th><th>학생</th><th>→</th><th>이 학생이 챙길 마니또</th></tr>'+c.map((a,i)=>drRow(a,dr[a],i+1)).join('')+'</table></div>').join('')
+ return '<p><small>순서대로 앞 학생이 바로 다음 학생을 챙겨요. 마지막 학생은 맨 처음 학생을 챙겨요. 두 학생을 눌러 선택하면 고리 안에서 자리가 바뀌어요.</small></p>'+cy.map((c,ci)=>(cy.length>1?'<p><b>고리 '+(ci+1)+' ('+c.length+'명)</b></p>':'')+'<div class="wrap"><table><tr><th>순서</th><th>학생</th><th>→</th><th>이 학생이 챙길 마니또</th></tr>'+c.map((a,i)=>drRow(a,dr[a],i+1)).join('')+'</table></div>').join('')
 }
 function pDraw(){const dr=A.draft,e=chk(dr),ph=cf().phase||'ready';
- let h=card('<h3>🎲 추첨 (서약한 '+part().length+'명 대상)</h3><p>추첨 → 확정은 진행 탭의 "배정 확정" 버튼이에요.</p><button class="p" onclick="draw()">🎲 추첨하기</button>'+(SEL.length==2?'<button class="b" onclick="swap()">🔁 '+esc(nm(SEL[0]))+' ↔ '+esc(nm(SEL[1]))+' 위치 교환</button>':'')+(dr?'<p>'+(e||'✅ 정상: 전원이 하나의 고리로 연결돼 있어요')+'</p>':''));
+ let h=card('<h3>🎲 추첨 (서약한 '+part().length+'명 대상)</h3><p>추첨 → 아래 표에서 두 학생 행을 눌러 선택 → 위치 교환 (고리 안에서 두 학생의 자리를 맞바꿔요. 전체가 하나의 고리로 유지돼요). 확정은 진행 탭의 "배정 확정" 버튼이에요.</p><button class="p" onclick="draw()">🎲 추첨하기</button>'+(SEL.length==2?'<button class="b" onclick="swap()">🔁 '+esc(nm(SEL[0]))+' ↔ '+esc(nm(SEL[1]))+' 위치 교환</button>':'')+(dr?'<p>'+(e||'✅ 정상: 전원이 하나의 고리로 연결돼 있어요')+'</p>':''));
  if(ph!='draft'&&A.assign)h+=card('현재 확정된 배정이 있어요 (배정 초안 단계에서만 수정할 수 있어요)');
  if(dr)h+=card(drTabs()+drTable(dr));
- return h}
+ return h+drList()}
 function pMission(){const c=cf(),n=c.nDays||0,d=Math.min(SP.md||1,n)||1,ed=SP.em?((A.days||{})[d]||{})[SP.em]:null,e=ed||{};
  let h=card('총 <b>'+n+'</b>일 <button class="p" onclick="R(\'config/nDays\').set('+(n+1)+')">➕ Day 추가</button><button class="g" onclick="delDay()">🗑 마지막 Day 삭제</button>');
  if(!n)return h;
@@ -352,8 +369,8 @@ function csv(){const pt=part(),n=cf().nDays||0,cols=[];
  pt.forEach(([i,u])=>{const g=(A.guess||{})[i];rows.push([i,u.name,g?nm(g):'',(A.reflect||{})[i]||'',...cols.map(([d,mid])=>{const s=((A.sub||{})[i]||{})[d+'~'+mid];return s?s.t:''})])});
  const t='\ufeff'+rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n'),a=document.createElement('a');
  a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download='manito.csv';a.click()}
-function resetAll(){if(!confirm('배정·제출물·힌트·추측·소감·서약을 모두 초기화할까요?\n(명단과 미션은 유지돼요)'))return;
- const u={};['assign','draft','sub','inbox','hearts','guess','reflect','sig','resign','deliver','unlock','reject','flip'].forEach(k=>u[k]=null);
+function resetAll(){if(!confirm('배정(저장된 초안 포함)·제출물·힌트·추측·소감·서약을 모두 초기화할까요?\n(명단과 미션은 유지돼요)'))return;
+ const u={};['assign','draft','drafts','sub','inbox','hearts','guess','reflect','sig','resign','deliver','unlock','reject','flip'].forEach(k=>u[k]=null);
  Object.keys(A.roster||{}).forEach(i=>u['roster/'+i+'/pledged']=false);
  u['config/phase']='ready';u['config/day']=0;u['config/run']=Date.now();db.ref().update(u).then(()=>toast('초기화했어요'))}
 location.hash=='#admin'?aInit():sInit();
