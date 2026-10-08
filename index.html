@@ -142,8 +142,9 @@ function render(){
  if(pi==4&&S.tgt&&localStorage[K('cu')]!=c.day){localStorage[K('cu')]=c.day;setTimeout(()=>curtain(c.day),50)}
  if(S.tgt&&S.hw!==S.tgt){S.hw=S.tgt;watch('hrtIn','hearts/'+S.tgt)}
  const pl=(ph=='pledge'&&!u.pledged&&!u.excluded)||(!!S.rsg&&u.pledged&&!u.excluded),ok=!pl&&u.pledged&&!u.excluded&&pi>=3&&!!S.tgt,t=ok?S.tab||'home':'home';
- S.dark=pl;if(ok&&t=='inbox'){const un=unread(c,pi);if(un.length){S.nw=[...new Set([...(S.nw||[]),...un])];localStorage[K('ms')]=JSON.stringify([...seenK(),...un])}}
- view(pl?'pledge':'main',hdr(u,pi)+(pl?pledgeH(c):(ok?tabsH(c,pi):'')+(t=='inbox'?inboxH(c,pi):t=='stamp'?stampH(c):homeH(c,u,ph,pi)))+popH(c,u))}
+ S.dark=pl;if(!S.rsg)S.rsgSeen=0;if(ok&&t=='inbox'){const un=unread(c,pi);if(un.length){S.nw=[...new Set([...(S.nw||[]),...un])];localStorage[K('ms')]=JSON.stringify([...seenK(),...un])}}
+ view(pl?'pledge':'main',hdr(u,pi)+(pl?pledgeH(c):(ok?tabsH(c,pi):'')+(t=='inbox'?inboxH(c,pi):t=='stamp'?stampH(c):homeH(c,u,ph,pi)))+popH(c,u)+(pl&&u.pledged&&S.rsg&&!S.rsgSeen?rsgN():''))}
+const rsgN=()=>'<div class="ovl" id="rsgn"><div class="card" style="text-align:center"><h2>✍️ 다시 서명해 주세요</h2><p style="line-height:1.7">서명을 알아볼 수 없어 서약이 통과되지 못했습니다.<br>이름을 한 글자 한 글자 또박또박 써서 다시 서명하세요.</p><div class="rt"><button onclick="S.rsgSeen=1;$(\'#rsgn\').remove()">확인</button></div></div></div>';
 function hdr(u,pi){const ok=u.pledged&&!u.excluded,t=ok&&pi>=3&&S.tgt;
  return '<div class="top"><div class="hl"><h2 class="ttl">마니또</h2><span class="who"'+(t?' onclick="S.pt=!S.pt;render()" style="cursor:pointer"':'')+'>'+esc(u.name)+(t?' ▾':'')+'</span>'+(t&&S.pt?'<div class="tpop">'+(localStorage[K('op')]?'내 마니또 🤫 <b>'+esc((S.ros[S.tgt]||{}).name)+'</b>':'<button onclick="S.gift=1;S.pt=0;render()">🎁 선물상자 열어보기</button>')+'</div>':'')+'</div><div class="tb">'+(ok&&(S.cfg||{}).ruleText?'<button title="진행 규칙" onclick="S.rp=!S.rp;S.pp=0;render()">📋</button>':'')+(ok?'<button title="서약서" onclick="S.pp=!S.pp;S.rp=0;render()">📜</button>':'')+'<button class="g" onclick="logout()">로그아웃</button></div></div>'}
 const vis=()=>Object.keys(S.inbox||{}).filter(k=>S.dlv&&S.dlv[k]),seenK=()=>JSON.parse(localStorage[K('ms')]||'[]'),unread=(c,pi)=>{const q=seenK();return vis(c,pi).filter(k=>!q.includes(k))};
