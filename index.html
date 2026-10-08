@@ -294,10 +294,10 @@ function draw(){const ids=part().map(x=>x[0]);if(ids.length<2)return alert('서�
  for(let i=ids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}
  const o={};ids.forEach((x,i)=>o[x]=ids[(i+1)%ids.length]);SEL=[];R('draft').set(o)}
 function selRow(i){SEL=SEL.includes(i)?SEL.filter(x=>x!=i):[...SEL,i].slice(-2);arender(1)}
-function swap(){const[a,b]=SEL,d=A.draft;R('draft').update({[a]:d[b],[b]:d[a]});SEL=[]}
+function swap(){const[a,b]=SEL,d=A.draft,s=x=>x==a?b:x==b?a:x,o={};Object.keys(d).forEach(y=>o[y]=s(d[s(y)]));R('draft').set(o);SEL=[]}
 function confirmAssign(){if(!A.draft)return alert('먼저 추첨하세요');const e=chk(A.draft);if(e&&!confirm(e+'\n그래도 확정할까요?'))return;R('assign').set(A.draft).then(()=>R('config/phase').set('assigned'))}
 function pDraw(){const dr=A.draft,e=chk(dr),ph=cf().phase||'ready';
- let h=card('<h3>🎲 추첨 (서약한 '+part().length+'명 대상)</h3><p>추첨 → 아래 표에서 두 학생 행을 눌러 선택 → 교환. 확정은 진행 탭의 "배정 확정" 버튼이에요.</p><button class="p" onclick="draw()">🎲 추첨하기</button>'+(SEL.length==2?'<button class="b" onclick="swap()">🔁 '+esc(nm(SEL[0]))+' ↔ '+esc(nm(SEL[1]))+' 마니또 교환</button>':'')+(dr?'<p>'+(e||'✅ 정상: 전원이 하나의 고리로 연결돼 있어요')+'</p>':''));
+ let h=card('<h3>🎲 추첨 (서약한 '+part().length+'명 대상)</h3><p>추첨 → 아래 표에서 두 학생 행을 눌러 선택 → 위치 교환 (고리 안에서 두 학생의 자리를 맞바꿔요. 전체가 하나의 고리로 유지돼요). 확정은 진행 탭의 "배정 확정" 버튼이에요.</p><button class="p" onclick="draw()">🎲 추첨하기</button>'+(SEL.length==2?'<button class="b" onclick="swap()">🔁 '+esc(nm(SEL[0]))+' ↔ '+esc(nm(SEL[1]))+' 위치 교환</button>':'')+(dr?'<p>'+(e||'✅ 정상: 전원이 하나의 고리로 연결돼 있어요')+'</p>':''));
  if(ph!='draft'&&A.assign)h+=card('현재 확정된 배정이 있어요 (배정 초안 단계에서만 수정할 수 있어요)');
  if(dr)h+=card('<div class="wrap"><table><tr><th>학생</th><th>→</th><th>이 학생이 챙길 마니또</th></tr>'+Object.entries(dr).map(([a,b])=>'<tr class="'+(SEL.includes(a)?'sel':'')+'" onclick="selRow(\''+a+'\')" style="cursor:pointer"><td>'+esc(nm(a))+'</td><td>→</td><td>'+esc(nm(b))+'</td></tr>').join('')+'</table></div>');
  return h}
