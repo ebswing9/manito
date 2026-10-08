@@ -125,7 +125,7 @@ const MINM=typeof MIN_MISSION!='undefined'?MIN_MISSION:10,MAXM=typeof MAX_MISSIO
 cn=(e,a,b)=>{e.nextElementSibling.textContent=e.value.trim().length+'자'};
 function watch(k,p){R(p).on('value',s=>{S[k]=s.val()??(k=='cfg'?{}:null);render()},e=>ui(card('⚠️ 데이터베이스에 연결하지 못했어요<br><small>'+esc(e.message)+'</small><br>Firebase 규칙이 열려 있는지 확인해 주세요.')))}
 function sInit(){watch('dlv','deliver');watch('cfg','config');watch('days','days');watch('ros','roster');if(me)bind();render()}
-function bind(){['tgt:assign/','subs:sub/','inbox:inbox/','guess:guess/','refl:reflect/','sig:sig/','hrtMine:hearts/','unl:unlock/','rej:reject/'].forEach(x=>{const[k,p]=x.split(':');watch(k,p+me)})}
+function bind(){['tgt:assign/','subs:sub/','inbox:inbox/','guess:guess/','refl:reflect/','sig:sig/','hrtMine:hearts/','unl:unlock/','rej:reject/','rsg:resign/'].forEach(x=>{const[k,p]=x.split(':');watch(k,p+me)})}
 const K=x=>x+me+(S.cfg.run||''),tab=t=>{if(t!='inbox')S.nw=[];S.tab=t;render()},logout=()=>{localStorage.removeItem('mid');location.reload()};
 function view(n,h){document.body.classList.toggle('oath',!!S.dark);if(n=='pledge'&&S.view=='pledge'&&$('#cv'))return;S.view=n;ui(h);if(n=='pledge')initCv()}
 function render(){
@@ -141,7 +141,7 @@ function render(){
  if(pi>=6&&S.mani===undefined&&S.tgt){S.mani=null;R('assign').get().then(s=>{const a=s.val()||{};S.mani=Object.keys(a).find(k=>a[k]==me)||0;render()})}
  if(pi==4&&S.tgt&&localStorage[K('cu')]!=c.day){localStorage[K('cu')]=c.day;setTimeout(()=>curtain(c.day),50)}
  if(S.tgt&&S.hw!==S.tgt){S.hw=S.tgt;watch('hrtIn','hearts/'+S.tgt)}
- const pl=ph=='pledge'&&!u.pledged&&!u.excluded,ok=!pl&&u.pledged&&!u.excluded&&pi>=3&&!!S.tgt,t=ok?S.tab||'home':'home';
+ const pl=(ph=='pledge'&&!u.pledged&&!u.excluded)||(!!S.rsg&&u.pledged&&!u.excluded),ok=!pl&&u.pledged&&!u.excluded&&pi>=3&&!!S.tgt,t=ok?S.tab||'home':'home';
  S.dark=pl;if(ok&&t=='inbox'){const un=unread(c,pi);if(un.length){S.nw=[...new Set([...(S.nw||[]),...un])];localStorage[K('ms')]=JSON.stringify([...seenK(),...un])}}
  view(pl?'pledge':'main',hdr(u,pi)+(pl?pledgeH(c):(ok?tabsH(c,pi):'')+(t=='inbox'?inboxH(c,pi):t=='stamp'?stampH(c):homeH(c,u,ph,pi)))+popH(c,u))}
 function hdr(u,pi){const ok=u.pledged&&!u.excluded,t=ok&&pi>=3&&S.tgt;
@@ -221,7 +221,7 @@ function initCv(){const cv=$('#cv');if(!cv)return;inked=false;const x=cv.getCont
 const clrCv=()=>{inked=false;drawTxt()};
 function signCv(){if(!inked)return toast('서명을 해 주세요');if(!confirm('서약서 내용을 확인했어요. 서명을 제출할까요?'))return;
  const e=document.createElement('canvas');e.width=600;e.height=300;const g=e.getContext('2d');g.fillStyle='#FFFDF6';g.fillRect(0,0,600,300);g.drawImage($('#cv'),0,0);
- db.ref().update({['sig/'+me]:e.toDataURL('image/png'),['roster/'+me+'/pledged']:true}).then(()=>{S.view='';toast('서약이 완료되었어요.')})}
+ db.ref().update({['sig/'+me]:e.toDataURL('image/png'),['roster/'+me+'/pledged']:true,['resign/'+me]:null}).then(()=>{S.view='';toast('서약이 완료되었어요.')})}
 
 /* ================= 관리자 ================= */
 let A={},atab='prog',SEL=[],SP={};
@@ -273,7 +273,7 @@ function selAll(f){SP.sel={};if(f)Object.keys(A.roster||{}).forEach(i=>SP.sel[i]
 function bulk(k){const ids=Object.keys(SP.sel||{}).filter(i=>SP.sel[i]&&(A.roster||{})[i]);if(!ids.length)return toast('먼저 학생을 선택해 주세요');
  const L={ex:'참여 제외',in:'참여 포함',pl:'서약 처리',un:'서약 해제',pin:'PIN 초기화',del:'삭제'};
  if((k=='del'||k=='pin'||k=='un')&&!confirm(ids.length+'명을 '+L[k]+'할까요?'))return;
- const o={};ids.forEach(i=>{if(k=='ex')o['roster/'+i+'/excluded']=true;if(k=='in')o['roster/'+i+'/excluded']=false;if(k=='pl')o['roster/'+i+'/pledged']=true;if(k=='un')o['roster/'+i+'/pledged']=false;if(k=='pin')o['pins/'+i]=null;if(k=='del'){o['roster/'+i]=null;o['pins/'+i]=null;o['sig/'+i]=null}});
+ const o={};ids.forEach(i=>{if(k=='ex')o['roster/'+i+'/excluded']=true;if(k=='in')o['roster/'+i+'/excluded']=false;if(k=='pl')o['roster/'+i+'/pledged']=true;if(k=='un')o['roster/'+i+'/pledged']=false;if(k=='pin')o['pins/'+i]=null;if(k=='del'){o['roster/'+i]=null;o['pins/'+i]=null;o['sig/'+i]=null;o['resign/'+i]=null}});
  db.ref().update(o).then(()=>{if(k=='del')SP.sel={};toast(ids.length+'명 '+L[k]+' 완료')})}
 function regText(t){const u={};let n=0;t.replace(/^\ufeff/,'').split(/\r?\n/).forEach(l=>{const m=l.replace(/"/g,'').trim().split(/[\s,;]+/);if(m.length>=2&&m[0]!='학번'){u['roster/'+m[0]+'/name']=m.slice(1).join(' ');n++}});return[u,n]}
 function addRoster(){const[u,n]=regText(v('paste'));if(!n)return toast('학번과 이름을 확인해 주세요');db.ref().update(u).then(()=>{document.getElementById('paste').value='';toast(n+'명 등록했어요')})}
@@ -319,7 +319,8 @@ function pSub(){const c=cf(),n=c.nDays||0,d=SP.sd||c.day||1,ms=Object.entries((A
 function pRes(){const pt=part();
  return card('<button class="p" onclick="csv()">📥 CSV 내보내기 (제출물·힌트·추측·소감)</button><button onclick="window.print()">🖨 인쇄</button><button class="g" onclick="resetAll()">🧹 테스트 초기화</button>')+
  card('<div class="wrap"><table><tr><th>이름</th><th>추측</th><th>소감</th><th></th></tr>'+pt.map(([i,u])=>{const g=(A.guess||{})[i];return'<tr><td>'+esc(u.name)+'</td><td>'+(g?esc(nm(g)):'-')+'</td><td style="text-align:left">'+esc((A.reflect||{})[i])+'</td><td>'+((A.reflect||{})[i]?((A.unlock||{})[i]?'<button class="g" onclick="R(\'unlock/'+i+'\').remove()">허용 취소</button>':'<button class="b" onclick="R(\'unlock/'+i+'\').set(true)">수정 허용</button>'):'')+'</td></tr>'}).join('')+'</table></div>')+
- card('<h3 class="tgl" onclick="SP.so=!SP.so;arender(1)">✍️ 서명 모음 <small>'+(SP.so?'▲':'▼')+'</small></h3>'+(!SP.so?'':'<div style="margin-top:18px">'+pt.map(([i,u])=>(A.sig||{})[i]?'<div style="display:inline-block;text-align:center"><img src="'+A.sig[i]+'" width="240"><br>'+esc(u.name)+'</div>':'').join('')+'</div>'))}
+ card('<h3 class="tgl" onclick="SP.so=!SP.so;arender(1)">✍️ 서명 모음 <small>'+(SP.so?'▲':'▼')+'</small></h3>'+(!SP.so?'':'<div style="margin-top:18px">'+pt.map(([i,u])=>{const rs=(A.resign||{})[i];return (A.sig||{})[i]||rs?'<div style="display:inline-block;text-align:center;margin:6px">'+((A.sig||{})[i]?'<img src="'+A.sig[i]+'" width="240" style="'+(rs?'opacity:.35':'')+'">':'<div style="width:240px;height:120px"></div>')+'<br>'+esc(u.name)+(rs?' <b style="color:#c0392b">⏳ 재서명 대기</b><br><button class="g" onclick="resign(\''+i+'\',0)">요청 취소</button>':'<br><button class="g" onclick="resign(\''+i+'\',1)">✍️ 다시 받기</button>')+'</div>':''}).join('')+'</div>'))}
+function resign(i,on){if(on&&!confirm(nm(i)+' 학생에게 서명을 다시 받을까요?\n학생이 접속하면 서명 화면이 먼저 뜨고, 다시 서명하면 기존 서명이 교체돼요.\n(배정·미션 진행 상황은 그대로 유지돼요)'))return;R('resign/'+i).set(on?true:null).then(()=>toast(on?'재서명을 요청했어요':'요청을 취소했어요'))}
 function pStat(){const pt=part(),g=A.guess||{},as=A.assign||{},hr=A.hearts||{},ang={};Object.keys(as).forEach(w=>ang[as[w]]=w);
  const tally=a=>{const c={};a.forEach(x=>{if(x!=null)c[x]=(c[x]||0)+1});return Object.entries(c).sort((x,y)=>y[1]-x[1])},
  bars=(L,u)=>{if(!L.length)return'<p>아직 데이터가 없어요</p>';const m=L[0][1];return L.slice(0,10).map(([i,n])=>'<div class="rk"><span class="rn">'+esc(nm(i))+'</span><span class="rb"><i style="width:'+Math.round(n/m*100)+'%"></i></span><span class="rc">'+n+u+'</span></div>').join('')},
@@ -343,7 +344,7 @@ function csv(){const pt=part(),n=cf().nDays||0,cols=[];
  const t='\ufeff'+rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n'),a=document.createElement('a');
  a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download='manito.csv';a.click()}
 function resetAll(){if(!confirm('배정·제출물·힌트·추측·소감·서약을 모두 초기화할까요?\n(명단과 미션은 유지돼요)'))return;
- const u={};['assign','draft','sub','inbox','hearts','guess','reflect','sig','deliver','unlock','reject','flip'].forEach(k=>u[k]=null);
+ const u={};['assign','draft','sub','inbox','hearts','guess','reflect','sig','resign','deliver','unlock','reject','flip'].forEach(k=>u[k]=null);
  Object.keys(A.roster||{}).forEach(i=>u['roster/'+i+'/pledged']=false);
  u['config/phase']='ready';u['config/day']=0;u['config/run']=Date.now();db.ref().update(u).then(()=>toast('초기화했어요'))}
 location.hash=='#admin'?aInit():sInit();
