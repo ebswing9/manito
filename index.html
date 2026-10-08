@@ -302,7 +302,7 @@ function drTable(dr){
  if((SP.dv||'ring')=='id')return '<div class="wrap"><table><tr><th>학생</th><th>→</th><th>이 학생이 챙길 마니또</th></tr>'+Object.entries(dr).map(([a,b])=>drRow(a,b,0)).join('')+'</table></div>';
  const seen=new Set(),cy=[];
  Object.keys(dr).forEach(k=>{if(seen.has(k))return;const c=[];let x=k;while(x in dr&&!seen.has(x)){seen.add(x);c.push(x);x=dr[x]}cy.push(c)});
- return '<p><small>순서대로 앞 학생이 바로 다음 학생을 챙겨요. 마지막 학생은 맨 처음 학생을 챙겨요. 두 학생을 눌러 선택하면 고리 안에서 자리가 바뀌어요.</small></p>'+cy.map((c,ci)=>(cy.length>1?'<p><b>고리 '+(ci+1)+' ('+c.length+'명)</b></p>':'')+'<div class="wrap"><table><tr><th>순서</th><th>학생</th><th>→</th><th>이 학생이 챙길 마니또</th></tr>'+c.map((a,i)=>drRow(a,dr[a],i+1)).join('')+'</table></div>').join('')
+ return '<p><small>순서대로 앞 학생이 바로 다음 학생을 챙겨요. 마지막 학생은 맨 처음 학생을 챙겨요.</small></p>'+cy.map((c,ci)=>(cy.length>1?'<p><b>고리 '+(ci+1)+' ('+c.length+'명)</b></p>':'')+'<div class="wrap"><table><tr><th>순서</th><th>학생</th><th>→</th><th>이 학생이 챙길 마니또</th></tr>'+c.map((a,i)=>drRow(a,dr[a],i+1)).join('')+'</table></div>').join('')
 }
 function pDraw(){const dr=A.draft,e=chk(dr),ph=cf().phase||'ready';
  let h=card('<h3>🎲 추첨 (서약한 '+part().length+'명 대상)</h3><p>추첨 → 확정은 진행 탭의 "배정 확정" 버튼이에요.</p><button class="p" onclick="draw()">🎲 추첨하기</button>'+(SEL.length==2?'<button class="b" onclick="swap()">🔁 '+esc(nm(SEL[0]))+' ↔ '+esc(nm(SEL[1]))+' 위치 교환</button>':'')+(dr?'<p>'+(e||'✅ 정상: 전원이 하나의 고리로 연결돼 있어요')+'</p>':''));
